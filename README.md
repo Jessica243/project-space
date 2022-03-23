@@ -1,5 +1,26 @@
 # the-space
 
+## Getting Started
+
+Prerequisites:
+
+1. Install Node
+2. Install Expo CLI
+
+Install NPM packages:
+
+1. `npm install`
+
+Install new NPM packages:
+
+* `expo install <insert name of package>`
+
+Run app:
+
+* `npm run android`
+* `npm run ios`
+* `npm run web`
+
 ## Tutorial
 
 1. Create an React Native project and run on emulator
@@ -24,4 +45,3 @@
 2. Run project on real device
 
     Follow this [guide](https://reactnative.dev/docs/running-on-device) to run a physical device.
-
