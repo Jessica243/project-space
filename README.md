@@ -5,7 +5,9 @@
 Prerequisites:
 
 1. Install Node
-2. Install Expo CLI
+2. Install Expo CLI `npm install -g expo-cli`
+3. Register for an expo account https://expo.dev/
+4. Login to expo `expo login`
 
 Run the project:
 
@@ -15,10 +17,17 @@ Run the project:
    * `npm run ios`
    * `npm run web`
 
+Note: 
+* Add a new NPM packages
+  * `expo install <insert name of package>`
 
-Note: Add a new NPM packages
+## Publishing Application
 
-* `expo install <insert name of package>`
+1. Publish `expo publish`
+
+## Viewing Application
+2. Download the `expo go` app on your phone
+3. Go to this link and scan the QR code on your phone to view the app https://expo.dev/@jess243/the-space?serviceType=classic&distribution=expo-go
 
 ## Tutorial
 
