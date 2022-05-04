@@ -7,19 +7,18 @@ Prerequisites:
 1. Install Node
 2. Install Expo CLI
 
-Install NPM packages:
+Run the project:
 
 1. `npm install`
+2. Run app
+   * `npm run android`
+   * `npm run ios`
+   * `npm run web`
 
-Install new NPM packages:
+
+Note: Add a new NPM packages
 
 * `expo install <insert name of package>`
-
-Run app:
-
-* `npm run android`
-* `npm run ios`
-* `npm run web`
 
 ## Tutorial
 

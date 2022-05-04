@@ -1,19 +1,42 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 import * as React from 'react';
-import MapView from 'react-native-maps';
+import Login from './src/screen/Login';
+import { AppPages } from './src/types/AppPages';
+import Registration from './src/screen/Registration';
+import Map from './src/screen/Map';
+// import MapView from 'react-native-maps';
 
-export default function App() {
-  return (
-    <ParkingScreen />
-  );
+const Page = () => {
+  const [page, setPage] = React.useState(AppPages.Login);
+  switch(page){
+    case AppPages.Login:
+      return (
+        <Login 
+          onLoginSuccess={() => setPage(AppPages.Map)}
+          onRequestRegistration={()=> setPage(AppPages.Registration)}
+        />
+      )
+    case AppPages.Registration:
+      return (
+        <Registration
+          onRegistrationSuccess={() => setPage(AppPages.Login)}
+        />
+      )
+    case AppPages.Map:
+      return (
+        <Map />
+      )
+  }
 }
 
-function ParkingScreen() {
+const App = () => {
   return (
     <View style={styles.container}>
       <Text>Parking</Text>
-      <MapView
+      <Page/>
+      
+      {/* <MapView
         initialRegion={{
           latitude: -37.8136,
           longitude: 144.9631,
@@ -21,7 +44,7 @@ function ParkingScreen() {
           longitudeDelta: 0.05,
         }}
         style={styles.map}
-      />
+      /> */}
     </View>
   );
 }
@@ -39,3 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default App;
