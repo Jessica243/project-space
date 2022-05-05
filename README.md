@@ -30,3 +30,9 @@ Note:
 
 2. Download the `expo go` app on your phone
 3. Go to this link and scan the QR code on your phone to view the app https://expo.dev/@jess243/the-space?serviceType=classic&distribution=expo-go
+
+## Development Libraries
+
+* [Map](https://www.npmjs.com/package/react-native-maps)
+* [Voice input](https://www.npmjs.com/package/@react-native-voice/voice)
+* [Sound output](https://www.npmjs.com/package/react-native-sound)
