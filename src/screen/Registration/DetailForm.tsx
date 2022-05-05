@@ -4,9 +4,10 @@ import appStyles from '../../appStyles';
 
 interface DetailFormProps {
   onSuccess: () => void,
+  onCancel: () => void,
 }
 
-const DetailForm = ({ onSuccess }: DetailFormProps) => {
+const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
   const [firstName, setFirstName] = React.useState("");
   const [surname, setSurname] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -121,6 +122,10 @@ const DetailForm = ({ onSuccess }: DetailFormProps) => {
         </View>
       </View>
       <View style={appStyles.buttonRow}>
+        <Button
+          onPress={onCancel}
+          title="Cancel"
+        />
         <Button
           onPress={onSubmit}
           title="Register"

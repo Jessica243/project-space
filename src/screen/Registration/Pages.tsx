@@ -7,16 +7,21 @@ interface PageProps {
   pageNumber: number
   setPageNumber: (page: number) => void,
   onRegistrationSuccess: () => void,
+  onCancel: () => void,
 }
 
-const Page = ({pageNumber, onRegistrationSuccess, setPageNumber}: PageProps) => {
+const Page = ({pageNumber, onRegistrationSuccess, setPageNumber, onCancel}: PageProps) => {
   switch(pageNumber){
     case 1:
       return (
         <View>
-          <Text>Voice Enabled Search</Text>
+          <Text>Feature 1: Voice Enabled Search</Text>
           <Text>Find parkings that match your preferences</Text>
           <View style={appStyles.buttonRow}>
+            <Button
+              onPress={() => onCancel()}
+              title="Cancel"
+            />
             <Button
               onPress={() => setPageNumber(2)}
               title="Next"
@@ -27,7 +32,7 @@ const Page = ({pageNumber, onRegistrationSuccess, setPageNumber}: PageProps) => 
     case 2:
       return (
         <View>
-          <Text>Personalized Parking</Text>
+          <Text>Feature 2: Personalized Parking</Text>
           <Text>Find parkings that match your preferences</Text>
           <View style={appStyles.buttonRow}>
             <Button
@@ -44,7 +49,7 @@ const Page = ({pageNumber, onRegistrationSuccess, setPageNumber}: PageProps) => 
     case 3:
       return (
         <View>
-          <Text>Quick Navigation</Text>
+          <Text>Feature 3: Quick Navigation</Text>
           <Text>Easily navigate to your preferred parking</Text>
           <View style={appStyles.buttonRow}>
             <Button
@@ -60,12 +65,12 @@ const Page = ({pageNumber, onRegistrationSuccess, setPageNumber}: PageProps) => 
       );
     case 4:
       return (
-        <DetailForm onSuccess={() => setPageNumber(5)}/>
+        <DetailForm onCancel={onCancel} onSuccess={() => setPageNumber(5)}/>
       );
     case 5:
       return (
         <View>
-          <Text>You have successfully registered an account</Text>
+          <Text>You have successfully registered an account!</Text>
           <Button
             onPress={onRegistrationSuccess}
             title="Back to login"

@@ -1,27 +1,27 @@
 import * as React from 'react'
 import { View } from 'react-native';
-import Page from './Pages';
+import Page from './Page';
 
-interface RegistrationProps {
-  onRegistrationSuccess: () => void,
+interface PasswordResetProps {
+  onPasswordResetSuccess: () => void,
   onCancel: () => void,
 }
 
-const Registration = ({
-  onRegistrationSuccess,
+const PasswordReset = ({
+  onPasswordResetSuccess,
   onCancel,
-}: RegistrationProps) => {
+}: PasswordResetProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   return (
     <View>
       <Page
         pageNumber={pageNumber}
-        onRegistrationSuccess={onRegistrationSuccess}
-        onCancel={onCancel}
         setPageNumber={setPageNumber}
+        onPasswordResetSuccess={onPasswordResetSuccess}
+        onCancel={onCancel}
       />
     </View>
   )
 }
 
-export default Registration;
+export default PasswordReset;

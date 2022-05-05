@@ -1,10 +1,17 @@
 import { View } from 'react-native';
 import * as React from 'react';
 import Login from './src/screen/Login';
-import { AppPages } from './src/type/AppPages';
 import Registration from './src/screen/Registration/Registration';
 import Map from './src/screen/Map';
 import appStyles from './src/appStyles';
+import PasswordReset from './src/screen/PasswordReset/PasswordReset';
+
+enum AppPages {
+  Login,
+  Registration,
+  PassswordReset,
+  Map,
+}
 
 const Page = () => {
   const [page, setPage] = React.useState(AppPages.Login);
@@ -13,14 +20,22 @@ const Page = () => {
       return (
         <Login 
           onLoginSuccess={() => setPage(AppPages.Map)}
-          onRequestRegistration={()=> setPage(AppPages.Registration)}
-          onForgotPassword={() => {}}
+          onRequestRegistration={() => setPage(AppPages.Registration)}
+          onForgotPassword={() => setPage(AppPages.PassswordReset)}
         />
       )
     case AppPages.Registration:
       return (
         <Registration
           onRegistrationSuccess={() => setPage(AppPages.Login)}
+          onCancel={() => setPage(AppPages.Login)}
+        />
+      )
+    case AppPages.PassswordReset:
+      return (
+        <PasswordReset
+          onPasswordResetSuccess={() => setPage(AppPages.Login)}
+          onCancel={() => setPage(AppPages.Login)}
         />
       )
     case AppPages.Map:

@@ -8,7 +8,11 @@ interface LoginProps {
   onForgotPassword: () => void,
 }
 
-const Login = ({ onLoginSuccess, onRequestRegistration, onForgotPassword }: LoginProps) => {
+const Login = ({
+  onLoginSuccess,
+  onRequestRegistration,
+  onForgotPassword,
+}: LoginProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   
