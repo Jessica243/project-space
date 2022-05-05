@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Button, Text } from 'react-native';
+import { View } from 'react-native';
+import RegistrationPage from './Registration/RegistrationPages';
 
 interface RegistrationProps {
   onRegistrationSuccess: () => void,
@@ -8,15 +9,15 @@ interface RegistrationProps {
 const Registration = ({
   onRegistrationSuccess
 }: RegistrationProps) => {
+  const [pageNumber, setPageNumber] = React.useState(1);
   return (
-    <>
-      <Text>Registration Page</Text>
-      <Button
-        onPress={onRegistrationSuccess}
-        title="Successfully registered an account"
-        accessibilityLabel=''
+    <View>
+      <RegistrationPage
+        pageNumber={pageNumber}
+        onRegistrationSuccess={onRegistrationSuccess}
+        setPageNumber={setPageNumber}
       />
-    </>
+    </View>
   )
 }
 

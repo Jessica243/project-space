@@ -10,11 +10,12 @@ interface LoginProps {
 
 const Login = ({ onLoginSuccess, onRequestRegistration, onForgotPassword }: LoginProps) => {
   const [email, setEmail] = React.useState("");
-  const [emailError, setEmailError ] = React.useState("");
   const [password, setPassword] = React.useState("");
+  
+  const [emailError, setEmailError ] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
 
-  const handleSubmit = () => {
+  const onSubmit = () => {
     let validEmail = true;
     let validPassword = true;
 
@@ -22,7 +23,7 @@ const Login = ({ onLoginSuccess, onRequestRegistration, onForgotPassword }: Logi
     setPasswordError('');
 
     if(email.length == 0) {
-      setEmailError(`Please enter your email ${email}`);
+      setEmailError(`Please enter your email`);
       validEmail = false;
     }
 
@@ -45,22 +46,26 @@ const Login = ({ onLoginSuccess, onRequestRegistration, onForgotPassword }: Logi
     <View>
       <Text style={appStyles.title}>The Space</Text>
       <View style={componentStyles.loginSection}>
-        <TextInput
-          style={appStyles.userInput}
-          onChangeText={setEmail}
-          value={email}
-          placeholder="Email"
-          keyboardType="email-address"
-        />
-        { emailError.length > 0 && <Text style={appStyles.validationError}>{emailError}</Text> }
-        <TextInput
-          style={appStyles.userInput}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-        />
-        { passwordError.length > 0 && <Text style={appStyles.validationError}>{passwordError}</Text> }
+        <View>
+          <TextInput
+            style={appStyles.userInput}
+            onChangeText={setEmail}
+            value={email}
+            placeholder="Email"
+            keyboardType="email-address"
+          />
+          { emailError.length > 0 && <Text style={appStyles.validationError}>{emailError}</Text> }
+        </View>
+        <View>
+          <TextInput
+            style={appStyles.userInput}
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={true}
+            placeholder="Password"
+          />
+          { passwordError.length > 0 && <Text style={appStyles.validationError}>{passwordError}</Text> }
+        </View>
       </View>
       <View style={componentStyles.linksSection}>
         <Text onPress={onRequestRegistration} style={appStyles.link}>
@@ -71,7 +76,7 @@ const Login = ({ onLoginSuccess, onRequestRegistration, onForgotPassword }: Logi
         </Text>
       </View>
       <Button
-        onPress={handleSubmit}
+        onPress={onSubmit}
         title="Login"
       />
     </View>

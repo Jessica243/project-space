@@ -27,6 +27,10 @@ const appStyles = StyleSheet.create({
   validationError: {
     fontSize: 10,
     color: 'red',
+  },
+  buttonRow: {
+    flexDirection:"row",
+    justifyContent: 'center',
   }
 });
 
