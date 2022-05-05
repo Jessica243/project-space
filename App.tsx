@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import * as React from 'react';
 import Login from './src/screen/Login';
 import { AppPages } from './src/types/AppPages';
 import Registration from './src/screen/Registration';
 import Map from './src/screen/Map';
+import appStyles from './src/appStyles';
 
 const Page = () => {
   const [page, setPage] = React.useState(AppPages.Login);
@@ -13,6 +14,7 @@ const Page = () => {
         <Login 
           onLoginSuccess={() => setPage(AppPages.Map)}
           onRequestRegistration={()=> setPage(AppPages.Registration)}
+          onForgotPassword={() => {}}
         />
       )
     case AppPages.Registration:
@@ -30,20 +32,10 @@ const Page = () => {
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Parking</Text>
+    <View style={appStyles.container}>
       <Page/>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
