@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { Button, Text, View } from 'react-native';
 import appStyles from '../../appStyles';
-import RegistrationDetailPage from './DetailForm';
+import DetailForm from './DetailForm';
 
-interface RegistrationPageProps {
+interface PageProps {
   pageNumber: number
   setPageNumber: (page: number) => void,
   onRegistrationSuccess: () => void,
 }
 
-const RegistrationPage = ({pageNumber, onRegistrationSuccess, setPageNumber}: RegistrationPageProps) => {
+const Page = ({pageNumber, onRegistrationSuccess, setPageNumber}: PageProps) => {
   switch(pageNumber){
     case 1:
       return (
@@ -60,7 +60,7 @@ const RegistrationPage = ({pageNumber, onRegistrationSuccess, setPageNumber}: Re
       );
     case 4:
       return (
-        <RegistrationDetailPage onSuccess={() => setPageNumber(5)}/>
+        <DetailForm onSuccess={() => setPageNumber(5)}/>
       );
     case 5:
       return (
@@ -76,4 +76,4 @@ const RegistrationPage = ({pageNumber, onRegistrationSuccess, setPageNumber}: Re
   }
 }
 
-export default RegistrationPage;
+export default Page;

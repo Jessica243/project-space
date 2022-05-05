@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import * as React from 'react';
 import Login from './src/screen/Login';
 import { AppPages } from './src/type/AppPages';
-import Registration from './src/screen/Registration';
+import Registration from './src/screen/Registration/Registration';
 import Map from './src/screen/Map';
 import appStyles from './src/appStyles';
 
