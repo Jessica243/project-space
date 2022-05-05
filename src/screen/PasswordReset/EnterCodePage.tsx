@@ -20,6 +20,11 @@ const EnterCodePage = ({ onSuccess, onCancel }: EnterCodePageProps) => {
       validCode = false;
     }
 
+    if(! code.match(/^\d+$/)) {
+      setCodeError("Please enter a valid numeric code")
+      validCode = false;
+    }
+
     if(validCode) {
       onSuccess();
     }
