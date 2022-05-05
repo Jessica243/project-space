@@ -1,12 +1,27 @@
 import * as React from 'react'
-import { Text } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+import MapView from 'react-native-maps';
 
 const Map = () => {
   return (
-    <>
-      <Text>Map page</Text>
-    </>
+      <MapView
+        initialRegion={{
+          latitude: -37.8136,
+          longitude: 144.9631,
+          latitudeDelta: 0.04,
+          longitudeDelta: 0.05,
+        }}
+        style={styles.map}
+      />
   )
 }
+
+const styles = StyleSheet.create({
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+});
+
 
 export default Map;
