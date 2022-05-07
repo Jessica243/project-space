@@ -19,13 +19,13 @@ const appStyles = StyleSheet.create({
     borderBottomWidth: 1
   },
   link: {
-    fontSize: 10,
+    fontSize: 12,
     textDecorationLine: 'underline',
     paddingTop: 5,
     paddingBottom: 5,
   },
   validationError: {
-    fontSize: 10,
+    fontSize: 12,
     color: 'red',
   },
   buttonRow: {
