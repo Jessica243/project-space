@@ -31,6 +31,10 @@ const appStyles = StyleSheet.create({
   buttonRow: {
     flexDirection:"row",
     justifyContent: 'center',
+  },
+  row: {
+    flexDirection: "row",
+    width: "100%"
   }
 });
 

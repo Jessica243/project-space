@@ -1,14 +1,26 @@
 import * as React from 'react'
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
-import MapView from 'react-native-maps';
+import { StyleSheet, Dimensions, View, Text, Button, TextInput } from 'react-native';
+import MapView, { Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import appStyles from '../appStyles';
+import openMap from 'react-native-open-maps';
 
 const Map = () => {
 
   const [location, setLocation] = React.useState<LocationObject | null>(null);
   const [locationError, setLocationError] = React.useState("");
+  const [searchString, setSearchString] = React.useState("");
+
+  const showDestinationOnMap = () =>  {
+    openMap({ 
+      latitude: -37.8136,
+      longitude: 144.9631,
+      end: 'Parliament Station',
+      travelType: 'drive',
+      navigate: true,
+     });
+  }
 
   React.useEffect(() => {
     (async () => {
@@ -31,25 +43,44 @@ const Map = () => {
       }
       {
         locationError.length === 0 && location !== null &&
-        <MapView
-          initialRegion={{
-            latitude: location?.coords.latitude,
-            longitude: location?.coords.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-          style={styles.map}
-        />
+        <>
+          <MapView
+            initialRegion={{
+              latitude: location?.coords.latitude,
+              longitude: location?.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+            style={componentStyles.map}
+          />
+          <Callout style={componentStyles.callout}>
+            <View style={appStyles.row}>
+              <TextInput
+                style={appStyles.userInput}
+                onChangeText={setSearchString}
+                value={searchString}
+                placeholder="Current location"
+              />
+              <Button
+                onPress={showDestinationOnMap}
+                title="Open maps"
+              />
+            </View>
+          </Callout>
+        </>
       }
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  callout: {
+    margin: 30
+  }
 });
 
 
