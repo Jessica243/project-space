@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
 
@@ -8,8 +8,8 @@ interface EnterEmailPageProps {
 }
 
 const EnterEmailPage = ({ onSuccess, onCancel }: EnterEmailPageProps) => {
-  const [email, setEmail] = React.useState("");
-  const [emailError, setEmailError] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const onSubmit = () => {
     let validEmail = true;
@@ -21,14 +21,14 @@ const EnterEmailPage = ({ onSuccess, onCancel }: EnterEmailPageProps) => {
     }
 
     if(! email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-      setEmailError("Please enter a valid email")
+      setEmailError("Please enter a valid email");
       validEmail = false;
     }
 
     if(validEmail) {
       onSuccess();
     }
-  }
+  };
 
   return (
     <View>
@@ -55,6 +55,6 @@ const EnterEmailPage = ({ onSuccess, onCancel }: EnterEmailPageProps) => {
       </View>
     </View>
   );
-}
+};
 
 export default EnterEmailPage;

@@ -21,10 +21,14 @@ Note:
 * Add a new NPM packages
   * `expo install <insert name of package>`
 
+## Linting
+
+1. `npm run fixLint`
+
 ## Publish
 
-1. Login to expo in your terminal `expo login`
-2. Publish `expo publish`
+1. (First time only) Login to expo in your terminal `npm run loginToExpo`
+2. Publish `npm run publish`
 
 ## View
 
@@ -33,6 +37,8 @@ Note:
 
 ## Development Libraries
 
+* [Get location data from phone](https://www.npmjs.com/package/expo-location)
 * [Map](https://www.npmjs.com/package/react-native-maps)
 * [Voice input](https://www.npmjs.com/package/@react-native-voice/voice)
 * [Sound output](https://www.npmjs.com/package/react-native-sound)
+* [DB](https://www.npmjs.com/package/@realm/react)

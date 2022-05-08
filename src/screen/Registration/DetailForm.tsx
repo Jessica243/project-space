@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
 
@@ -8,17 +8,17 @@ interface DetailFormProps {
 }
 
 const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
-  const [firstName, setFirstName] = React.useState("");
-  const [surname, setSurname] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [firstName, setFirstName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [firstNameError, setFirstNameError] = React.useState("");
-  const [surnameError, setSurnameError] = React.useState("");
-  const [emailError, setEmailError] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [surnameError, setSurnameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const onSubmit = () => {
     let validFirstname = true;
@@ -49,24 +49,24 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
     }
 
     if(! email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-      setEmailError("Please enter a valid email")
+      setEmailError("Please enter a valid email");
       validEmail = false;
     }
 
     if(password.length == 0) {
-      setPasswordError("Please enter your password")
+      setPasswordError("Please enter your password");
       validPassword = false;
     }
 
     if(confirmPassword !== password){
-      setConfirmPasswordError("Please check, your password don't match")
+      setConfirmPasswordError("Please check, your password don't match");
       validConfirmPassword = false;
     }
 
     if(validFirstname && validSurname && validEmail && validPassword && validConfirmPassword) {
       onSuccess();
     }
-  }
+  };
 
   return (
     <View>
@@ -133,7 +133,7 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
       </View>
     </View>
     
-  )
-}
+  );
+};
 
 export default DetailForm;

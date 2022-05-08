@@ -1,5 +1,7 @@
-import * as React from 'react'
-import { Button, Text, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Button, Text, TextInput, View,
+} from 'react-native';
 import appStyles from '../../appStyles';
 
 interface EnterCodePageProps {
@@ -7,28 +9,28 @@ interface EnterCodePageProps {
   onCancel: () => void,
 }
 
-const EnterCodePage = ({ onSuccess, onCancel }: EnterCodePageProps) => {
-  const [code, setCode] = React.useState("");
-  const [codeError, setCodeError] = React.useState("");
+const EnterCodePage = ({ onSuccess, onCancel }: EnterCodePageProps): JSX.Element => {
+  const [code, setCode] = useState('');
+  const [codeError, setCodeError] = useState('');
 
   const onSubmit = () => {
     let validCode = true;
     setCodeError('');
 
-    if(code.length == 0) {
-      setCodeError(`Please enter your code`);
+    if (code.length === 0) {
+      setCodeError('Please enter your code');
       validCode = false;
     }
 
-    if(! code.match(/^\d+$/)) {
-      setCodeError("Please enter a valid numeric code")
+    if (!code.match(/^\d+$/)) {
+      setCodeError('Please enter a valid numeric code');
       validCode = false;
     }
 
-    if(validCode) {
+    if (validCode) {
       onSuccess();
     }
-  }
+  };
 
   return (
     <View>
@@ -55,6 +57,6 @@ const EnterCodePage = ({ onSuccess, onCancel }: EnterCodePageProps) => {
       </View>
     </View>
   );
-}
+};
 
 export default EnterCodePage;

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import Page from './Pages';
 
@@ -11,7 +11,7 @@ const Registration = ({
   onRegistrationSuccess,
   onCancel,
 }: RegistrationProps) => {
-  const [pageNumber, setPageNumber] = React.useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   return (
     <View>
       <Page
@@ -21,7 +21,7 @@ const Registration = ({
         setPageNumber={setPageNumber}
       />
     </View>
-  )
-}
+  );
+};
 
 export default Registration;

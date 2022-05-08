@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Button, Text, TextInput, StyleSheet, View } from 'react-native'
+import React, { useState } from 'react';
+import { Button, Text, TextInput, StyleSheet, View } from 'react-native';
 import appStyles from '../appStyles';
 
 interface LoginProps {
@@ -13,11 +13,11 @@ const Login = ({
   onRequestRegistration,
   onForgotPassword,
 }: LoginProps) => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   
-  const [emailError, setEmailError ] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
+  const [emailError, setEmailError ] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const onSubmit = () => {
     let validEmail = true;
@@ -32,19 +32,19 @@ const Login = ({
     }
 
     if(! email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-      setEmailError("Please enter a valid email")
+      setEmailError("Please enter a valid email");
       validEmail = false;
     }
 
     if(password.length == 0) {
-      setPasswordError("Please enter your password")
+      setPasswordError("Please enter your password");
       validPassword = false;
     }
 
     if(validEmail && validPassword) {
       onLoginSuccess();
     }
-  }
+  };
 
   return (
     <View>
@@ -84,8 +84,8 @@ const Login = ({
         title="Login"
       />
     </View>
-  )
-}
+  );
+};
 
 const componentStyles = StyleSheet.create({
   loginSection: {
@@ -97,4 +97,4 @@ const componentStyles = StyleSheet.create({
   }
 });
 
-export default Login
+export default Login;
