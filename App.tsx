@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // import { createRealmContext } from '@realm/react';
 import Login from './src/screen/Login';
 import Registration from './src/screen/Registration/Registration';
-import Map from './src/screen/Map';
+import Map from './src/screen/Map/Map';
 import PasswordReset from './src/screen/PasswordReset/PasswordReset';
 // import User from './src/database/User';
 
@@ -21,7 +21,7 @@ enum AppPages {
 }
 
 const Page = () : JSX.Element => {
-  const [page, setPage] = useState(AppPages.Login);
+  const [page, setPage] = useState(AppPages.Map);
   switch (page) {
   case AppPages.Login:
     return (
