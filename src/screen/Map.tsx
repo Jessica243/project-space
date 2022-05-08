@@ -4,7 +4,6 @@ import MapView, { Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import appStyles from '../appStyles';
-import openMap from 'react-native-open-maps';
 
 const Map = () => {
 
@@ -13,13 +12,6 @@ const Map = () => {
   const [searchString, setSearchString] = React.useState("");
 
   const showDestinationOnMap = () =>  {
-    openMap({ 
-      latitude: -37.8136,
-      longitude: 144.9631,
-      end: 'Parliament Station',
-      travelType: 'drive',
-      navigate: true,
-     });
   }
 
   React.useEffect(() => {
