@@ -21,7 +21,7 @@ enum AppPages {
 }
 
 const Page = () : JSX.Element => {
-  const [page, setPage] = useState(AppPages.Map);
+  const [page, setPage] = useState(AppPages.Login);
   switch (page) {
   case AppPages.Login:
     return (

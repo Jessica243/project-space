@@ -34,7 +34,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
       >
         { parkingLocations.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
       </MapView>
-      <Callout style={componentStyles.callout}>
+      {/* <Callout style={componentStyles.callout}>
         <View style={appStyles.row}>
           <TextInput
             style={appStyles.userInput}
@@ -47,7 +47,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
             title="Open maps"
           />
         </View>
-      </Callout>
+      </Callout> */}
     </>
   );
 };
