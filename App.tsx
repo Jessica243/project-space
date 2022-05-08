@@ -1,10 +1,9 @@
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 // import { createRealmContext } from '@realm/react';
 import Login from './src/screen/Login';
 import Registration from './src/screen/Registration/Registration';
 import Map from './src/screen/Map';
-import appStyles from './src/appStyles';
 import PasswordReset from './src/screen/PasswordReset/PasswordReset';
 // import User from './src/database/User';
 
@@ -57,11 +56,21 @@ const Page = () : JSX.Element => {
 const App = () => {
   return (
     // <RealmProvider>
-    <View style={appStyles.container}>
+    <View style={componentStyles.container}>
       <Page />
     </View>
     // </RealmProvider>
   );
 };
+
+
+const componentStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default App;

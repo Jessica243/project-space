@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Text, TextInput, StyleSheet, View } from 'react-native';
+import { Button, Text, TextInput, StyleSheet, View, ImageBackground } from 'react-native';
 import appStyles from '../appStyles';
+// import parkingImage from '../../assets/parkingLot.jpg';
 
 interface LoginProps {
   onLoginSuccess: () => void,
@@ -48,6 +49,7 @@ const Login = ({
 
   return (
     <View>
+      {/* <ImageBackground source={parkingImage} resizeMode="cover" style={componentStyles.backgroundImage}> */}
       <Text style={appStyles.title}>The Space</Text>
       <View style={componentStyles.loginSection}>
         <View>
@@ -73,16 +75,17 @@ const Login = ({
       </View>
       <View style={componentStyles.linksSection}>
         <Text onPress={onRequestRegistration} style={appStyles.link}>
-          I want to register an account
+       I want to register an account
         </Text>
         <Text onPress={onForgotPassword} style={appStyles.link}>
-          I forgot my password
+       I forgot my password
         </Text>
       </View>
       <Button
         onPress={onSubmit}
         title="Login"
       />
+      {/* </ImageBackground> */}
     </View>
   );
 };
@@ -94,7 +97,12 @@ const componentStyles = StyleSheet.create({
   linksSection: {
     paddingBottom: 10,
     alignItems: 'center',
-  }
+  },
+  // backgroundImage: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   width: '100%'
+  // }
 });
 
 export default Login;
