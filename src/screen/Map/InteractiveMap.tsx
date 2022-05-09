@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { View, Button, TextInput, StyleSheet, Dimensions } from 'react-native';
 import MapView, { Callout } from 'react-native-maps';
 import appStyles from '../../appStyles';
-import parkingLocations, { ParkingSpotLocation } from '../../database/parkingData';
+import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 
 interface InteractiveMapProps {
@@ -12,10 +12,30 @@ interface InteractiveMapProps {
 
 const InteractiveMap = ({ location }: InteractiveMapProps) => {
   const [searchString, setSearchString] = useState('');
+  const [showPaidParking, setShowPaidParking] = useState(true);
+  const [paidParkingButtonText, setPaidParkingButtonText] = useState('show free parking only');
 
   const showDestinationOnMap = () => {
     // TODO: open driving directions
   };
+
+  const toggleParkingPaidParkingLocations = () => {
+    setShowPaidParking(!showPaidParking);
+
+    if(showPaidParking) {
+      setPaidParkingButtonText('show free parking only');
+    } else {
+      setPaidParkingButtonText('show all parking');
+    }
+  };
+
+  const displayParkingSpots = parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
+    if(showPaidParking) {
+      return true;
+    } else {
+      return parkingSpot.type === ParkingSpotType.Free_LotCovered || parkingSpot.type === ParkingSpotType.Free_LotUncovered || parkingSpot.type === ParkingSpotType.Free_Street;  
+    }
+  });
 
   return (
     <>
@@ -32,9 +52,9 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
         showsCompass={true}
         showsPointsOfInterest = {false}  
       >
-        { parkingLocations.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
+        { displayParkingSpots.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
       </MapView>
-      {/* <Callout style={componentStyles.callout}>
+      <Callout style={componentStyles.callout}>
         <View style={appStyles.row}>
           <TextInput
             style={appStyles.userInput}
@@ -47,7 +67,11 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
             title="Open maps"
           />
         </View>
-      </Callout> */}
+        <Button
+          onPress={toggleParkingPaidParkingLocations}
+          title={paidParkingButtonText}
+        />
+      </Callout>
     </>
   );
 };
