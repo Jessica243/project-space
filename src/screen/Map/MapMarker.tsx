@@ -1,15 +1,23 @@
 import React from 'react';
+import { Image, StyleSheet, ImageSourcePropType} from 'react-native';
 import { Marker } from 'react-native-maps';
 import { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
+import parkingRed from '../../../assets/parkingRed.png';
+import parkingOrange from '../../../assets/parkingOrange.png';
+import parkingYellow from '../../../assets/parkingYellow.png';
+import parkingGreen from '../../../assets/parkingGreen.png';
+import parkingBlue from '../../../assets/parkingBlue.png';
+import parkingPurple from '../../../assets/parkingPurple.png';
 
-const parkingColour: Record<ParkingSpotType, string> = {
-  [ParkingSpotType.Free_LotCovered]: 'purple',
-  [ParkingSpotType.Free_LotUncovered]: 'blue',
-  [ParkingSpotType.Free_Street]: 'green',
 
-  [ParkingSpotType.Paid_LotCovered]: 'yellow',
-  [ParkingSpotType.Paid_LotUncovered]: 'orange',
-  [ParkingSpotType.Paid_Street]: 'red'
+const parkingIcon: Record<ParkingSpotType, ImageSourcePropType> = {
+  [ParkingSpotType.Free_LotCovered]: parkingPurple,
+  [ParkingSpotType.Free_LotUncovered]: parkingBlue,
+  [ParkingSpotType.Free_Street]: parkingGreen,
+
+  [ParkingSpotType.Paid_LotCovered]: parkingYellow,
+  [ParkingSpotType.Paid_LotUncovered]: parkingOrange,
+  [ParkingSpotType.Paid_Street]: parkingRed
 };
 
 const parkingTypeName: Record<ParkingSpotType, string> = {
@@ -23,6 +31,11 @@ const parkingTypeName: Record<ParkingSpotType, string> = {
 };
 
 const MapMarker = ({ id, name, address, type, latitude, longitude}: ParkingSpotLocation) => {
+
+  const showPopup = () => {
+    // TODO: show popup
+  };
+
   return (
     <Marker
       key={id}
@@ -30,11 +43,20 @@ const MapMarker = ({ id, name, address, type, latitude, longitude}: ParkingSpotL
         latitude: latitude,
         longitude: longitude
       }}
-      pinColor = {parkingColour[type]}
+      onPress = {showPopup}
       title={name}
       description={`${address} [${parkingTypeName[type]}]`}
-    />
+    >
+      <Image source={parkingIcon[type]} style={componentStyles.icon} />
+    </Marker>
   );
 };
+
+const componentStyles = StyleSheet.create({
+  icon: {
+    height: 25,
+    width: 25,
+  }
+});
 
 export default MapMarker;

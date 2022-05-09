@@ -12,7 +12,7 @@ interface InteractiveMapProps {
 
 const InteractiveMap = ({ location }: InteractiveMapProps) => {
   const [searchString, setSearchString] = useState('');
-  const [showPaidParking, setShowPaidParking] = useState(true);
+  const [onlyShowFreeParking, setOnlyShowFreeParking] = useState(false);
   const [paidParkingButtonText, setPaidParkingButtonText] = useState('show free parking only');
 
   const showDestinationOnMap = () => {
@@ -20,20 +20,20 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
   };
 
   const toggleParkingPaidParkingLocations = () => {
-    setShowPaidParking(!showPaidParking);
+    setOnlyShowFreeParking(!onlyShowFreeParking);
 
-    if(showPaidParking) {
-      setPaidParkingButtonText('show free parking only');
-    } else {
+    if(onlyShowFreeParking) {
       setPaidParkingButtonText('show all parking');
+    } else {
+      setPaidParkingButtonText('show free parking only');
     }
   };
 
   const displayParkingSpots = parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
-    if(showPaidParking) {
-      return true;
-    } else {
+    if(onlyShowFreeParking) {
       return parkingSpot.type === ParkingSpotType.Free_LotCovered || parkingSpot.type === ParkingSpotType.Free_LotUncovered || parkingSpot.type === ParkingSpotType.Free_Street;  
+    } else {
+      return true;
     }
   });
 
@@ -55,7 +55,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
         { displayParkingSpots.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
       </MapView>
       <Callout style={componentStyles.callout}>
-        <View style={appStyles.row}>
+        {/* <View style={appStyles.row}>
           <TextInput
             style={appStyles.userInput}
             onChangeText={setSearchString}
@@ -66,7 +66,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
             onPress={showDestinationOnMap}
             title="Open maps"
           />
-        </View>
+        </View> */}
         <Button
           onPress={toggleParkingPaidParkingLocations}
           title={paidParkingButtonText}
