@@ -1,16 +1,18 @@
 import { LocationObject } from 'expo-location';
 import React, {useState} from 'react';
-import { View, Button, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { View, Button, TextInput, StyleSheet, Dimensions, Text } from 'react-native';
 import MapView, { Callout } from 'react-native-maps';
 import appStyles from '../../appStyles';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
+import { Avatar } from "@rneui/themed";
 
 interface InteractiveMapProps {
   location: LocationObject
+  onOpenSettings: () => void;
 }
 
-const InteractiveMap = ({ location }: InteractiveMapProps) => {
+const InteractiveMap = ({ location, onOpenSettings }: InteractiveMapProps) => {
   const [searchString, setSearchString] = useState('');
   const [onlyShowFreeParking, setOnlyShowFreeParking] = useState(false);
   const [paidParkingButtonText, setPaidParkingButtonText] = useState('show free parking only');
@@ -46,6 +48,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
+        loadingEnabled={true}
         style={componentStyles.map}
         moveOnMarkerPress = {true}
         showsUserLocation={true}
@@ -54,7 +57,7 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
       >
         { displayParkingSpots.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
       </MapView>
-      <Callout style={componentStyles.callout}>
+      <Callout style={componentStyles.topCallout}>
         {/* <View style={appStyles.row}>
           <TextInput
             style={appStyles.userInput}
@@ -72,6 +75,19 @@ const InteractiveMap = ({ location }: InteractiveMapProps) => {
           title={paidParkingButtonText}
         />
       </Callout>
+      <Callout style={componentStyles.bottomRightCallout}>
+        <View style={componentStyles.avatar}>
+          <Avatar
+            onPress={onOpenSettings}
+            size={64}
+            rounded
+            source={{
+              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRih-FNWiHbIHG6jHWSZyCGTBqWN2chuunYfG6YVaY9SoKoUfQVK_87J7K9oHrMmrlpTVY&usqp=CAU"
+            }}
+          />
+          <Text>Jess</Text>
+        </View>
+      </Callout>
     </>
   );
 };
@@ -81,9 +97,23 @@ const componentStyles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  callout: {
+  topCallout: {
     margin: 30,
   },
+  bottomRightCallout: {
+    right: 0,
+    bottom: 0,
+    margin: 30,
+  },
+  avatar: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 20,
+  }
 });
 
 export default InteractiveMap;

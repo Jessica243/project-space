@@ -61,11 +61,12 @@ import InteractiveMap from './InteractiveMap';
 interface MainViewProps {
   location: LocationObject | null,
   locationError: string,
+  onOpenSettings: () => void,
 }
 
-const MainView = ({ location, locationError }: MainViewProps) => {
+const MainView = ({ location, locationError, onOpenSettings }: MainViewProps) => {
   if (locationError.length === 0 && location !== null) {
-    return <InteractiveMap location={location} />;
+    return <InteractiveMap location={location} onOpenSettings={onOpenSettings}/>;
   }
   return <Text style={appStyles.validationError}>{locationError}</Text>;
 };

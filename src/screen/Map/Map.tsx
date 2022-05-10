@@ -4,7 +4,11 @@ import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import MainView from './MainView';
 
-const Map = () => {
+interface MapProps {
+  onOpenSettings: () => void;
+}
+
+const Map = ({onOpenSettings}: MapProps) => {
   const [location, setLocation] = useState<LocationObject | null>(null);
   const [locationError, setLocationError] = useState('');
 
@@ -23,7 +27,7 @@ const Map = () => {
 
   return (
     <View>
-      <MainView location={location} locationError={locationError} />
+      <MainView location={location} locationError={locationError} onOpenSettings={onOpenSettings} />
     </View>
   );
 };

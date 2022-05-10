@@ -5,6 +5,8 @@ import Login from './src/screen/Login';
 import Registration from './src/screen/Registration/Registration';
 import Map from './src/screen/Map/Map';
 import PasswordReset from './src/screen/PasswordReset/PasswordReset';
+import Settings from './src/screen/Setting';
+import AppState, { initialState } from './src/AppState';
 // import User from './src/database/User';
 
 // const { RealmProvider, useRealm, useQuery } = createRealmContext({
@@ -18,10 +20,12 @@ enum AppPages {
   Registration,
   PassswordReset,
   Map,
+  Settings,
 }
 
 const Page = () : JSX.Element => {
   const [page, setPage] = useState(AppPages.Login);
+  const [pageState, setPageState] = useState<AppState>(initialState);
   switch (page) {
   case AppPages.Login:
     return (
@@ -47,7 +51,18 @@ const Page = () : JSX.Element => {
     );
   case AppPages.Map:
     return (
-      <Map />
+      <Map onOpenSettings={() => setPage(AppPages.Settings)} />
+    );
+  case AppPages.Settings:
+    return (
+      <Settings
+        state={pageState}
+        onSave={(newSetting: AppState) => {
+          setPageState(newSetting);
+          setPage(AppPages.Map);
+        }}
+        onCancel={() => setPage(AppPages.Map)}
+      />
     );
   default: return <></>;
   }
