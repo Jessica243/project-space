@@ -1,19 +1,21 @@
 import ParkingPreference from "./ParkingPreference";
 
-interface AppState {
+interface UserSettings {
   preferences: {
     firstChoice: ParkingPreference,
     secondChoice: ParkingPreference,
     thirdChoice: ParkingPreference
-  }
+  },
+  speechEnabled: boolean,
 }
 
-export const initialState: AppState = {
+export const initialUserSettings: UserSettings = {
   preferences: {
     firstChoice: ParkingPreference.Cost,
     secondChoice: ParkingPreference.Distance,
     thirdChoice: ParkingPreference.Security,
-  }
+  },
+  speechEnabled: true,
 };
 
-export default AppState;
+export default UserSettings;

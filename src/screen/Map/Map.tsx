@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { View } from 'react-native';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import MainView from './MainView';
+import {speak} from 'expo-speech';
+import AppState from '../../UserSettings';
 
 interface MapProps {
   onOpenSettings: () => void;
+  settings: AppState;
 }
 
-const Map = ({onOpenSettings}: MapProps) => {
+const Map = ({onOpenSettings, settings}: MapProps) => {
   const [location, setLocation] = useState<LocationObject | null>(null);
   const [locationError, setLocationError] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -23,6 +26,10 @@ const Map = ({onOpenSettings}: MapProps) => {
       const location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
+
+    if(settings.speechEnabled){
+      speak("Please tell me where you want to go, so I can find you a carpark.");
+    }
   }, []);
 
   return (

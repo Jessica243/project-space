@@ -1,28 +1,29 @@
 import React, {useState} from 'react';
 import { Text, View, Button } from 'react-native';
-import AppState from '../AppState';
+import UserSettings from '../UserSettings';
 import ParkingPreference, { parkingPreference, possibleParkingPreferences } from '../ParkingPreference';
 
 import RNPickerSelect from 'react-native-picker-select';
 import appStyles from '../appStyles';
 
 interface SettingProps {
-  onSave: (newSetting: AppState) => void,
+  onSave: (newSetting: UserSettings) => void,
   onCancel: () => void,
-  state: AppState,
+  settings: UserSettings,
 }
 
 
-const Setting = ({onSave, onCancel, state}: SettingProps) => {
-  const [preference1, setPreference1] = useState<ParkingPreference>(state.preferences.firstChoice);
-  const [preference2, setPreference2] = useState<ParkingPreference>(state.preferences.secondChoice);
-  const [preference3, setPreference3] = useState<ParkingPreference>(state.preferences.thirdChoice);
+const Setting = ({onSave, onCancel, settings}: SettingProps) => {
+  const [preference1, setPreference1] = useState<ParkingPreference>(settings.preferences.firstChoice);
+  const [preference2, setPreference2] = useState<ParkingPreference>(settings.preferences.secondChoice);
+  const [preference3, setPreference3] = useState<ParkingPreference>(settings.preferences.thirdChoice);
+  const [speechEnabled, setSpeechEnabled] = useState<boolean>(settings.speechEnabled);
 
   const items = possibleParkingPreferences.map(p => ({label: parkingPreference[p], value: p}));
 
   return (
     <View>
-      <Text style={appStyles.title}>Settings</Text>
+      <Text style={appStyles.title}>Preferences</Text>
       <View style={appStyles.row}>
         <Text>1</Text>
         <RNPickerSelect
@@ -47,13 +48,24 @@ const Setting = ({onSave, onCancel, state}: SettingProps) => {
           items={items}
         />
       </View>
+      <Text style={appStyles.title}>Speech</Text>
+      <View>
+        <RNPickerSelect
+          onValueChange={(value) => setSpeechEnabled(value)}
+          value={speechEnabled}
+          items={[{label: 'Speech enabled', value: true}, {label: 'No speech', value: false}]}
+        />
+      </View>
       <View style={appStyles.buttonRow}>
         <Button
           onPress={onCancel}
           title="Cancel"
         />
         <Button
-          onPress={() => onSave({preferences: {firstChoice: preference1, secondChoice: preference2, thirdChoice: preference3}})}
+          onPress={() => onSave({
+            preferences: {firstChoice: preference1, secondChoice: preference2, thirdChoice: preference3},
+            speechEnabled: speechEnabled,
+          })}
           title="Save"
         />
       </View>
