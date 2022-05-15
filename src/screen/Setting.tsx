@@ -14,9 +14,7 @@ interface SettingProps {
 
 
 const Setting = ({onSave, onCancel, settings}: SettingProps) => {
-  const [preference1, setPreference1] = useState<ParkingPreference>(settings.preferences.firstChoice);
-  const [preference2, setPreference2] = useState<ParkingPreference>(settings.preferences.secondChoice);
-  const [preference3, setPreference3] = useState<ParkingPreference>(settings.preferences.thirdChoice);
+  const [preference, setPreference] = useState<ParkingPreference>(settings.preference);
   const [speechEnabled, setSpeechEnabled] = useState<boolean>(settings.speechEnabled);
 
   const items = possibleParkingPreferences.map(p => ({label: parkingPreference[p], value: p}));
@@ -24,30 +22,11 @@ const Setting = ({onSave, onCancel, settings}: SettingProps) => {
   return (
     <View>
       <Text style={appStyles.title}>Preferences</Text>
-      <View style={appStyles.row}>
-        <Text>1</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setPreference1(value)}
-          value={preference1}
-          items={items}
-        />
-      </View>
-      <View style={appStyles.row}>
-        <Text>2</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setPreference2(value)}
-          value={preference2}
-          items={items}
-        />
-      </View>
-      <View style={appStyles.row}>
-        <Text>3</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setPreference3(value)}
-          value={preference3}
-          items={items}
-        />
-      </View>
+      <RNPickerSelect
+        onValueChange={(value) => setPreference(value)}
+        value={preference}
+        items={items}
+      />
       <Text style={appStyles.title}>Speech</Text>
       <View>
         <RNPickerSelect
@@ -63,7 +42,7 @@ const Setting = ({onSave, onCancel, settings}: SettingProps) => {
         />
         <Button
           onPress={() => onSave({
-            preferences: {firstChoice: preference1, secondChoice: preference2, thirdChoice: preference3},
+            preference,
             speechEnabled: speechEnabled,
           })}
           title="Save"
