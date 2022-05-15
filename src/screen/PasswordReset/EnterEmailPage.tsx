@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
+import userInformation, { UserInformation } from '../../database/userData';
 
 interface EnterEmailPageProps {
-  onSuccess: () => void,
+  onSuccess: (user: UserInformation) => void,
   onCancel: () => void,
 }
 
@@ -25,8 +26,15 @@ const EnterEmailPage = ({ onSuccess, onCancel }: EnterEmailPageProps) => {
       validEmail = false;
     }
 
-    if(validEmail) {
-      onSuccess();
+    const user = userInformation.find(i => i.email === email);
+
+    if(!user) {
+      setEmailError("Email not found in system, please try a different email.");
+      validEmail = false;
+    }
+
+    if(user && validEmail) {
+      onSuccess(user);
     }
   };
 

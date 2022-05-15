@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import appStyles from '../../appStyles';
+import { UserInformation } from '../../database/userData';
 import EnterCodePage from './EnterCodePage';
 import EnterEmailPage from './EnterEmailPage';
 import NewPasswordPage from './NewPasswordPage';
@@ -13,11 +14,15 @@ interface PageProps {
 }
 
 const Page = ({ pageNumber, setPageNumber, onPasswordResetSuccess, onCancel }: PageProps) => {
-  switch(pageNumber){
-  case 1:    
-    return <EnterEmailPage onSuccess={() => setPageNumber(2)} onCancel={onCancel}/>;
+  const [selectedUser, setSelectedUser] = useState<UserInformation>();
+  switch (pageNumber) {
+  case 1:
+    return <EnterEmailPage onSuccess={(user: UserInformation) => {
+      setSelectedUser(user);
+      setPageNumber(2);
+    }} onCancel={onCancel} />;
   case 2:
-    return <EnterCodePage onSuccess={() => setPageNumber(3)} onCancel={onCancel}/>;
+    return <EnterCodePage onSuccess={() => setPageNumber(3)} onCancel={onCancel} />;
   case 3:
     return (
       <View>
@@ -32,10 +37,11 @@ const Page = ({ pageNumber, setPageNumber, onPasswordResetSuccess, onCancel }: P
             title="Reset password"
           />
         </View>
-      </View> 
+      </View>
     );
   case 4:
-    return <NewPasswordPage onSuccess={() => setPageNumber(5)} onCancel={onCancel} />;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return <NewPasswordPage selectedUser={selectedUser!} onSuccess={() => setPageNumber(5)} onCancel={onCancel} />;
   case 5:
     return (
       <View>
@@ -46,7 +52,7 @@ const Page = ({ pageNumber, setPageNumber, onPasswordResetSuccess, onCancel }: P
         />
       </View>
     );
-  default:  
+  default:
     return null;
   }
 };

@@ -18,7 +18,7 @@ import UserSettings, { initialUserSettings } from './src/UserSettings';
 enum AppPages {
   Login,
   Registration,
-  PassswordReset,
+  PasswordReset,
   Map,
   Settings,
 }
@@ -32,7 +32,7 @@ const Page = () : JSX.Element => {
       <Login
         onLoginSuccess={() => setPage(AppPages.Map)}
         onRequestRegistration={() => setPage(AppPages.Registration)}
-        onForgotPassword={() => setPage(AppPages.PassswordReset)}
+        onForgotPassword={() => setPage(AppPages.PasswordReset)}
       />
     );
   case AppPages.Registration:
@@ -42,7 +42,7 @@ const Page = () : JSX.Element => {
         onCancel={() => setPage(AppPages.Login)}
       />
     );
-  case AppPages.PassswordReset:
+  case AppPages.PasswordReset:
     return (
       <PasswordReset
         onPasswordResetSuccess={() => setPage(AppPages.Login)}

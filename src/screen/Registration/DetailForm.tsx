@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
+import userInformation from '../../database/userData';
 
 interface DetailFormProps {
   onSuccess: () => void,
@@ -34,7 +35,7 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
     setConfirmPasswordError('');
 
     if(firstName.length == 0) {
-      setFirstNameError(`Please enter your firstname`);
+      setFirstNameError(`Please enter your first name`);
       validFirstname = false;
     }
 
@@ -63,7 +64,18 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
       validConfirmPassword = false;
     }
 
-    if(validFirstname && validSurname && validEmail && validPassword && validConfirmPassword) {
+    if (userInformation.find(i => i.email === email)) {
+      setEmailError("Email already registered, please use a different email");
+      validEmail = false;
+    }
+
+    if (validFirstname && validSurname && validEmail && validPassword && validConfirmPassword) {
+      userInformation.push({
+        firstName,
+        surname,
+        email,
+        password
+      });
       onSuccess();
     }
   };
@@ -75,7 +87,10 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setFirstName}
+            onChangeText={(value) => {
+              setFirstNameError('');
+              setFirstName(value);
+            }}
             value={firstName}
             placeholder="Firstname"
           />
@@ -84,7 +99,10 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setSurname}
+            onChangeText={(value) => {
+              setSurnameError('');
+              setSurname(value);
+            }}
             value={surname}
             placeholder="Surname"
           />
@@ -93,7 +111,10 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setEmail}
+            onChangeText={(value) => {
+              setEmailError('');
+              setEmail(value);
+            }}
             value={email}
             placeholder="Email"
             keyboardType="email-address"
@@ -103,7 +124,10 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setPassword}
+            onChangeText={(value) => {
+              setPasswordError('');
+              setPassword(value);
+            }}
             value={password}
             secureTextEntry={true}
             placeholder="Password"
@@ -113,7 +137,10 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setConfirmPassword}
+            onChangeText={(value) => {
+              setConfirmPasswordError('');
+              setConfirmPassword(value);
+            }}
             value={confirmPassword}
             secureTextEntry={true}
             placeholder="Confirm password"

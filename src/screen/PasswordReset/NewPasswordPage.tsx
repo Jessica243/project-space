@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
+import { UserInformation } from '../../database/userData';
 
 interface NewPasswordPageProps {
   onSuccess: () => void,
   onCancel: () => void,
+  selectedUser: UserInformation,
 }
 
-const NewPasswordPage = ({ onSuccess, onCancel }: NewPasswordPageProps) => {
+const NewPasswordPage = ({ selectedUser, onSuccess, onCancel }: NewPasswordPageProps) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -30,6 +32,7 @@ const NewPasswordPage = ({ onSuccess, onCancel }: NewPasswordPageProps) => {
     }
 
     if(validPassword && validConfirmPassword) {
+      selectedUser.password = password;
       onSuccess();
     }
   };

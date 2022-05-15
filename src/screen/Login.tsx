@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput, StyleSheet, View, ImageBackground } from 'react-native';
 import appStyles from '../appStyles';
+import userInformation from '../database/userData';
 // import parkingImage from '../../assets/parkingLot.jpg';
 
 interface LoginProps {
@@ -32,7 +33,7 @@ const Login = ({
       validEmail = false;
     }
 
-    if(! email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    if(validEmail && ! email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
       setEmailError("Please enter a valid email");
       validEmail = false;
     }
@@ -42,9 +43,24 @@ const Login = ({
       validPassword = false;
     }
 
+    console.log('>>> userInformation', userInformation);
+
+    const user = userInformation.find(i => i.email === email);
+
+    if (validEmail && !user) {
+      setEmailError("Unknown email");
+      validEmail = false;
+    }
+
+    if (validEmail && user && user.password !== password) {
+      setPasswordError("Invalid password");
+      validPassword = false;
+    }
+
     if(validEmail && validPassword) {
       onLoginSuccess();
     }
+
   };
 
   return (
@@ -55,7 +71,10 @@ const Login = ({
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setEmail}
+            onChangeText={(value) => {
+              setEmailError('');
+              setEmail(value);
+            }}
             value={email}
             placeholder="Email"
             keyboardType="email-address"
@@ -65,7 +84,10 @@ const Login = ({
         <View>
           <TextInput
             style={appStyles.userInput}
-            onChangeText={setPassword}
+            onChangeText={(value) => {
+              setPasswordError('');
+              setPassword(value);
+            }}
             value={password}
             secureTextEntry={true}
             placeholder="Password"
