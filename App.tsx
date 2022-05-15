@@ -24,7 +24,7 @@ enum AppPages {
 }
 
 const Page = () : JSX.Element => {
-  const [page, setPage] = useState(AppPages.Settings);
+  const [page, setPage] = useState(AppPages.Login);
   const [settings, saveSettings] = useState<UserSettings>(initialUserSettings);
   switch (page) {
   case AppPages.Login:
