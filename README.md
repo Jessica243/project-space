@@ -50,3 +50,20 @@ Note:
 * [Svg](https://freesvg.org/search/)
 * [Image](https://unsplash.com/)
 * [Image](https://depositphotos.com/?gclsrc=aw.ds&&utm_source=google&utm_medium=cpc&utm_campaign=DP_English_EN_Image_Free_Search&utm_term=free%20images&adCampaign=trial&trial=2&gclid=Cj0KCQjwsdiTBhD5ARIsAIpW8CJpdrpWevpQmjpKGLi__B7nuzNWfGh1_FDvLEaYr6Ij9O5-BhQ1GoAaAm9qEALw_wcB)
+
+## TODO
+
+- [x] Create basic app
+- [x] Learn how to publish app on expo
+- [x] Add map
+- [x] Add settings
+- [x] Add registration
+- [x] Add login
+- [x] Add password reset
+- [x] Add dummy database
+- [ ] Add parking information map overlay
+- [ ] Add parking detail page
+- [ ] Add parking timer
+- [ ] Add drive to parking flow
+- [ ] Add comments to code for hand in
+- [ ] Publish the final app on expo for hand in
