@@ -1,6 +1,7 @@
 # the-space
 
-https://github.com/Jessica243/the-space
+[github codebase](https://github.com/Jessica243/the-space)
+[prototype deployed on expo](https://expo.dev/@jess243/the-space?serviceType=classic&distribution=expo-go)
 
 ## Getting Started
 
