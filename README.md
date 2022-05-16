@@ -57,15 +57,28 @@ Note:
 
 - [x] Create basic app
 - [x] Learn how to publish app on expo
-- [x] Add map
-- [x] Add settings
-- [x] Add registration
-- [x] Add login
-- [x] Add password reset
-- [x] Add dummy database
-- [ ] Add parking information map overlay
-- [ ] Add parking detail page
-- [ ] Add parking timer
-- [ ] Add drive to parking flow
+- [x] Mobile features
+  - [ ] Add map
+  - [x] Add settings
+  - [x] Add registration
+  - [x] Add login
+  - [x] Add password reset
+  - [x] Add dummy database
+  - [ ] Add search for locations on the map (dropdown to select)
+  - [ ] Add parking information map overlay
+  - [ ] Add parking detail page
+  - [ ] Add parking timer
+  - [ ] Add drive to parking dummy video
+- [ ] Voice features
+  - [ ] Drive to destination flow
+    - [ ] Ask the driver where they want to go
+    - [ ] Listen for the location the driver want to go
+    - [ ] Read the possible parkings in the area to the driver
+    - [ ] Listen for the choice the driver selected
+    - [ ] Ask the driver if they want to drive there
+    - [ ] List for confirmation from the driver
+  - [ ] Set parking timer flow
+    - [ ] Listen for the user wanting to set timer
+    - [ ] Confirm timer set for X minutes
 - [ ] Add comments to code for hand in
 - [ ] Publish the final app on expo for hand in
