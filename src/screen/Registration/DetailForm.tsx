@@ -64,7 +64,7 @@ const DetailForm = ({ onCancel, onSuccess }: DetailFormProps) => {
       validConfirmPassword = false;
     }
 
-    if (userInformation.find(i => i.email === email)) {
+    if (userInformation.find(i => i.email.toLowerCase() === email.toLowerCase())) {
       setEmailError("Email already registered, please use a different email");
       validEmail = false;
     }

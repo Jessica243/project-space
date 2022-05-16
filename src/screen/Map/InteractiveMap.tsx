@@ -1,8 +1,7 @@
 import { LocationObject } from 'expo-location';
 import React, {useState} from 'react';
-import { View, Button, TextInput, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, Button, StyleSheet, Dimensions, Text } from 'react-native';
 import MapView, { Callout } from 'react-native-maps';
-import appStyles from '../../appStyles';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 import { Avatar } from "@rneui/themed";

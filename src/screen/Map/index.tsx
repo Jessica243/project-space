@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import MainView from './MainView';
 import {speak} from 'expo-speech';
-import AppState from '../../UserSettings';
+import AppState from '../../type/UserSettings';
 
 interface MapProps {
   onOpenSettings: () => void;

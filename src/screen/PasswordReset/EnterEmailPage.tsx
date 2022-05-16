@@ -26,7 +26,7 @@ const EnterEmailPage = ({ onSuccess, onCancel }: EnterEmailPageProps) => {
       validEmail = false;
     }
 
-    const user = userInformation.find(i => i.email === email);
+    const user = userInformation.find(i => i.email.toLowerCase() === email.toLowerCase());
 
     if(!user) {
       setEmailError("Email not found in system, please try a different email.");

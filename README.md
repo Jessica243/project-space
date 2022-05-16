@@ -16,7 +16,7 @@ Run the project:
 2. Run app
    * `npm run android`
    * `npm run ios`
-   * `npm run web`
+   * `npm run web` - FYI: the map is not supported by the browser
 
 Note:
 

@@ -1,19 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-// import { createRealmContext } from '@realm/react';
 import Login from './src/screen/Login';
-import Registration from './src/screen/Registration/Registration';
-import Map from './src/screen/Map/Map';
-import PasswordReset from './src/screen/PasswordReset/PasswordReset';
-import Settings from './src/screen/Setting';
-import UserSettings, { initialUserSettings } from './src/UserSettings';
-// import User from './src/database/User';
-
-// const { RealmProvider, useRealm, useQuery } = createRealmContext({
-//   schema: [
-//     User,
-//   ],
-// });
+import Registration from './src/screen/Registration';
+import Map from './src/screen/Map';
+import PasswordReset from './src/screen/PasswordReset';
+import Settings from './src/screen/Settings';
+import UserSettings, { initialUserSettings } from './src/type/UserSettings';
 
 enum AppPages {
   Login,
@@ -70,11 +62,9 @@ const Page = () : JSX.Element => {
 
 const App = () => {
   return (
-    // <RealmProvider>
     <View style={componentStyles.container}>
       <Page />
     </View>
-    // </RealmProvider>
   );
 };
 

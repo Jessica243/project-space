@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Text, TextInput, StyleSheet, View, ImageBackground } from 'react-native';
-import appStyles from '../appStyles';
-import userInformation from '../database/userData';
-// import parkingImage from '../../assets/parkingLot.jpg';
+import { Button, Text, TextInput, StyleSheet, View } from 'react-native';
+import appStyles from '../../appStyles';
+import userInformation from '../../database/userData';
 
 interface LoginProps {
   onLoginSuccess: () => void,
@@ -45,7 +44,7 @@ const Login = ({
 
     console.log('>>> userInformation', userInformation);
 
-    const user = userInformation.find(i => i.email === email);
+    const user = userInformation.find(i => i.email.toLowerCase() === email.toLowerCase());
 
     if (validEmail && !user) {
       setEmailError("Unknown email");
@@ -107,7 +106,6 @@ const Login = ({
         onPress={onSubmit}
         title="Login"
       />
-      {/* </ImageBackground> */}
     </View>
   );
 };
@@ -120,11 +118,6 @@ const componentStyles = StyleSheet.create({
     paddingBottom: 10,
     alignItems: 'center',
   },
-  // backgroundImage: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  //   width: '100%'
-  // }
 });
 
 export default Login;

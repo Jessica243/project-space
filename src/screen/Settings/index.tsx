@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { Text, View, Button } from 'react-native';
-import UserSettings from '../UserSettings';
-import ParkingPreference, { parkingPreference, possibleParkingPreferences } from '../ParkingPreference';
+import UserSettings from '../../type/UserSettings';
+import ParkingPreference, { parkingPreference, possibleParkingPreferences } from '../../type/ParkingPreference';
 
 import RNPickerSelect from 'react-native-picker-select';
-import appStyles from '../appStyles';
+import appStyles from '../../appStyles';
 
 interface SettingProps {
   onSave: (newSetting: UserSettings) => void,
