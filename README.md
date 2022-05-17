@@ -57,8 +57,9 @@ Note:
 
 - [x] Create basic app
 - [x] Learn how to publish app on expo
-- [x] Mobile features
-  - [ ] Add map
+- [ ] Change function component to class components
+- [ ] Mobile features
+  - [x] Add map
   - [x] Add settings
   - [x] Add registration
   - [x] Add login

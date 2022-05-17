@@ -6,6 +6,7 @@ import Map from './src/screen/Map';
 import PasswordReset from './src/screen/PasswordReset';
 import Settings from './src/screen/Settings';
 import UserSettings, { initialUserSettings } from './src/type/UserSettings';
+import Timer from './src/screen/Timer';
 
 enum AppPages {
   Login,
@@ -13,10 +14,11 @@ enum AppPages {
   PasswordReset,
   Map,
   Settings,
+  Timer,
 }
 
 const Page = () : JSX.Element => {
-  const [page, setPage] = useState(AppPages.Login);
+  const [page, setPage] = useState(AppPages.Map);
   const [settings, saveSettings] = useState<UserSettings>(initialUserSettings);
   switch (page) {
   case AppPages.Login:
@@ -43,7 +45,11 @@ const Page = () : JSX.Element => {
     );
   case AppPages.Map:
     return (
-      <Map onOpenSettings={() => setPage(AppPages.Settings)} settings={settings}/>
+      <Map
+        onOpenSettings={() => setPage(AppPages.Settings)}
+        settings={settings}
+        onOpenTimer={() => setPage(AppPages.Timer)}
+      />
     );
   case AppPages.Settings:
     return (
@@ -55,6 +61,10 @@ const Page = () : JSX.Element => {
         }}
         onCancel={() => setPage(AppPages.Map)}
       />
+    );
+  case AppPages.Timer:
+    return (
+      <Timer onReturn={() => setPage(AppPages.Map)}/>
     );
   default: return <></>;
   }

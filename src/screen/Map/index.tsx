@@ -8,10 +8,11 @@ import AppState from '../../type/UserSettings';
 
 interface MapProps {
   onOpenSettings: () => void;
+  onOpenTimer: () => void;
   settings: AppState;
 }
 
-const Map = ({onOpenSettings, settings}: MapProps) => {
+const Map = ({onOpenSettings, settings, onOpenTimer}: MapProps) => {
   const [location, setLocation] = useState<LocationObject | null>(null);
   const [locationError, setLocationError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,7 @@ const Map = ({onOpenSettings, settings}: MapProps) => {
           location={location}
           locationError={locationError}
           onOpenSettings={onOpenSettings}
+          onOpenTimer={onOpenTimer}
         />
       }
     </View>

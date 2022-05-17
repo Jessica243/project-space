@@ -5,13 +5,15 @@ import MapView, { Callout } from 'react-native-maps';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 import { Avatar } from "@rneui/themed";
+// import { CheckBox } from 'react-native-elements';
 
 interface InteractiveMapProps {
   location: LocationObject
   onOpenSettings: () => void;
+  onOpenTimer: () => void;
 }
 
-const InteractiveMap = ({ location, onOpenSettings }: InteractiveMapProps) => {
+const InteractiveMap = ({ location, onOpenSettings, onOpenTimer }: InteractiveMapProps) => {
   const [searchString, setSearchString] = useState('');
   const [onlyShowFreeParking, setOnlyShowFreeParking] = useState(false);
   const [paidParkingButtonText, setPaidParkingButtonText] = useState('show free parking only');
@@ -56,7 +58,7 @@ const InteractiveMap = ({ location, onOpenSettings }: InteractiveMapProps) => {
       >
         { displayParkingSpots.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
       </MapView>
-      <Callout style={componentStyles.topCallout}>
+      <Callout style={componentStyles.topLeftCallout}>
         {/* <View style={appStyles.row}>
           <TextInput
             style={appStyles.userInput}
@@ -69,10 +71,17 @@ const InteractiveMap = ({ location, onOpenSettings }: InteractiveMapProps) => {
             title="Open maps"
           />
         </View> */}
+        {/* <CheckBox
+          title='Click Here'
+          checked={true}
+        /> */}
         <Button
           onPress={toggleParkingPaidParkingLocations}
           title={paidParkingButtonText}
         />
+      </Callout>
+      <Callout style={componentStyles.topRightCallout}>
+        <Button title="Timer" onPress={onOpenTimer} />
       </Callout>
       <Callout style={componentStyles.bottomRightCallout}>
         <View style={componentStyles.avatar}>
@@ -96,7 +105,11 @@ const componentStyles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  topCallout: {
+  topLeftCallout: {
+    margin: 30,
+  },
+  topRightCallout: {
+    right: 0,
     margin: 30,
   },
   bottomRightCallout: {
