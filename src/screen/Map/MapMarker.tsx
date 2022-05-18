@@ -1,6 +1,6 @@
-import React from 'react';
-import { Image, StyleSheet, ImageSourcePropType } from 'react-native';
-import { Marker } from 'react-native-maps';
+import React, { Component } from 'react';
+import { StyleSheet, ImageURISource, Text, Button } from 'react-native';
+import { Callout, Marker } from 'react-native-maps';
 import { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import parkingRed from '../../../assets/parkingRed.png';
 import parkingOrange from '../../../assets/parkingOrange.png';
@@ -9,7 +9,7 @@ import parkingGreen from '../../../assets/parkingGreen.png';
 import parkingBlue from '../../../assets/parkingBlue.png';
 import parkingPurple from '../../../assets/parkingPurple.png';
 
-const parkingIcon: Record<ParkingSpotType, ImageSourcePropType> = {
+const parkingIcon: Record<ParkingSpotType, ImageURISource> = {
   [ ParkingSpotType.Free_LotCovered ]: parkingPurple,
   [ ParkingSpotType.Free_LotUncovered ]: parkingBlue,
   [ ParkingSpotType.Free_Street ]: parkingGreen,
@@ -29,33 +29,37 @@ const parkingTypeName: Record<ParkingSpotType, string> = {
   [ ParkingSpotType.Paid_Street ]: 'Paid street parking',
 };
 
-const MapMarker = ({ id, name, address, type, latitude, longitude }: ParkingSpotLocation) => {
+interface MapMarkerProps {
+  parking: ParkingSpotLocation;
+  onDrive: (location: ParkingSpotLocation) => void;
+}
 
-  const showPopup = () => {
-    // TODO: show popup
-  };
+class MapMarker extends Component<MapMarkerProps, any> {
+  styles = StyleSheet.create({
+  });
 
-  return (
-    <Marker
-      key={id}
-      coordinate = {{
-        latitude: latitude,
-        longitude: longitude,
-      }}
-      onPress = {showPopup}
-      title={name}
-      description={`${address} [${parkingTypeName[ type ]}]`}
-    >
-      <Image source={parkingIcon[ type ]} style={componentStyles.icon} />
-    </Marker>
-  );
-};
-
-const componentStyles = StyleSheet.create({
-  icon: {
-    height: 25,
-    width: 25,
-  },
-});
+  render() {
+    return (
+      <Marker
+        key={this.props.parking.id}
+        coordinate = {{
+          latitude: this.props.parking.latitude,
+          longitude: this.props.parking.longitude,
+        }}
+        image={parkingIcon[ this.props.parking.type ]}
+      >
+        <Callout>
+          <Text>{this.props.parking.name}</Text>
+          <Text>{this.props.parking.address}</Text>
+          <Text>{parkingTypeName[ this.props.parking.type ]}</Text>
+          <Button
+            title='Drive'
+            onPress = {()=>this.props.onDrive(this.props.parking)}
+          />
+        </Callout>
+      </Marker>
+    );
+  }
+}
 
 export default MapMarker;

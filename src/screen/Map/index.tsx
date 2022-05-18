@@ -7,6 +7,8 @@ import AppState from '../../type/UserSettings';
 import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
+import DrivePage from './DrivePage';
+import { ParkingSpotLocation } from '../../database/parkingData';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -19,6 +21,13 @@ interface MapState {
   location: LocationObject | null;
   locationError: string;
   loading: boolean;
+  page: MapPages;
+  destination?: ParkingSpotLocation;
+}
+
+enum MapPages {
+  MAP,
+  DRIVE
 }
 
 class Map extends Component<MapProps, MapState> {
@@ -26,6 +35,7 @@ class Map extends Component<MapProps, MapState> {
     location: null,
     locationError: '',
     loading: true,
+    page: MapPages.MAP,
   };
 
   componentDidMount() {
@@ -58,14 +68,30 @@ class Map extends Component<MapProps, MapState> {
         <ActivityIndicator size='large'/>
       );
     } else if(this.state.locationError.length === 0 && this.state.location !== null) {
-      return (
-        <InteractiveMap
-          location={this.state.location}
-          onOpenSettings={this.props.onOpenSettings}
-          onOpenTimer={this.props.onOpenTimer}
-          user={this.props.user}
-        />
-      );
+      switch(this.state.page){
+      case MapPages.MAP:
+        return (
+          <InteractiveMap
+            onDrive={(location: ParkingSpotLocation) => {
+              this.setState({ page: MapPages.DRIVE, destination: location });
+            }}
+            location={this.state.location}
+            onOpenSettings={this.props.onOpenSettings}
+            onOpenTimer={this.props.onOpenTimer}
+            user={this.props.user}
+          />
+        );
+      case MapPages.DRIVE:
+        return (
+          <DrivePage
+            onBack={() => this.setState({ page: MapPages.MAP })}
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            destination={this.state.destination!}
+          />
+        );
+      default: return null;
+      }
+
     } else {
       return (
         <Text style={appStyles.validationError}>

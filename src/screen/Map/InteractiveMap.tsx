@@ -15,6 +15,7 @@ interface InteractiveMapProps {
   user: UserInformation;
   onOpenSettings: () => void;
   onOpenTimer: () => void;
+  onDrive: (location: ParkingSpotLocation) => void;
 }
 
 interface InteractiveMapState {
@@ -24,7 +25,7 @@ interface InteractiveMapState {
 }
 
 class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState> {
-  constructor(props: any) {
+  constructor(props: InteractiveMapProps) {
     super(props);
     this.state = {
       searchString: '',
@@ -131,9 +132,15 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
           showsCompass={true}
           showsPointsOfInterest = {false}
         >
-          { displayParkingSpots.map((props: ParkingSpotLocation) =>
-            <MapMarker key={props.id} {...props}/>,
-          ) }
+          { displayParkingSpots.map((props: ParkingSpotLocation) => {
+            return (
+              <MapMarker
+                key={props.id}
+                parking={props}
+                onDrive={this.props.onDrive}
+              />
+            );
+          })}
         </MapView>
         <Callout style={this.styles.topLeftCallout}>
           <Autocomplete

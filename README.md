@@ -66,10 +66,10 @@ Note:
   - [x] Add password reset
   - [x] Add dummy database
   - [x] Add search for locations on the map
-  - [ ] Add parking information map overlay
+  - [x] Add parking information map overlay
   - [ ] Add parking detail page
   - [ ] Add parking timer
-  - [ ] Add drive to parking dummy video
+  - [x] Add drive to parking dummy
 - [ ] Voice features
   - [ ] Drive to destination flow
     - [ ] Ask the driver where they want to go
