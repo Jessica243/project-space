@@ -57,7 +57,7 @@ Note:
 
 - [x] Create basic app
 - [x] Learn how to publish app on expo
-- [ ] Change function component to class components
+- [x] Change function component to class components
 - [ ] Mobile features
   - [x] Add map
   - [x] Add settings
@@ -67,8 +67,8 @@ Note:
   - [x] Add dummy database
   - [x] Add search for locations on the map
   - [x] Add parking information map overlay
-  - [ ] Add parking detail page
-  - [ ] Add parking timer
+  - [ ] Add prices and other parking details and show on the map
+  - [ ] Add parking list view (same info as the map search results)
   - [x] Add drive to parking dummy
 - [ ] Voice features
   - [ ] Drive to destination flow
@@ -78,8 +78,5 @@ Note:
     - [ ] Listen for the choice the driver selected
     - [ ] Ask the driver if they want to drive there
     - [ ] List for confirmation from the driver
-  - [ ] Set parking timer flow
-    - [ ] Listen for the user wanting to set timer
-    - [ ] Confirm timer set for X minutes
 - [ ] Add comments to code for hand in
 - [ ] Publish the final app on expo for hand in

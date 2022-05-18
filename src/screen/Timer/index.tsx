@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import RunningPage from './RunningPage';
 import StoppedPage from './StoppedPage';
 
@@ -51,6 +51,8 @@ class Timer extends Component<TimerProps, TimerState> {
   render() {
     return (
       <View>
+        <Text>This is currently under construction</Text>
+        <Text>Coming Soon!</Text>
         <Button title="Back" onPress={this.props.onReturn}/>
         {this.getPage()}
       </View>
