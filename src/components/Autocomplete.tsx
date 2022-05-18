@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, TextInput, View, StyleProp, ViewStyle } from 'react-native';
-import appStyles from '../appStyles';
+import { Text } from 'react-native';
+import { Button, StyleSheet, TextInput, View, StyleProp, ViewStyle, Dimensions, TouchableWithoutFeedback } from 'react-native';
 
 interface AutocompleteProps<T> {
   placeholder: string;
@@ -29,12 +29,27 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
       alignItems: 'flex-start',
       backgroundColor: 'white',
     },
+    searchResultsButton: {
+      fontSize: 12,
+      padding: 10,
+    },
     searchBar: {
       flexDirection: 'row',
-      width: '100%',
       backgroundColor: 'white',
     },
+    searchIcon: {
+      right: 0,
+    },
+    searchText: {
+      padding: 10,
+      width: Dimensions.get('window').width - 135,
+    },
   });
+
+  onSubmit = () => {
+    this.props.onSelect(this.state.searchString, this.state.selectedValue);
+    this.setState({ hasFocus: false, selectedValue: undefined });
+  };
 
   render() {
     const searchResults = this.props.filterValues(this.state.searchString);
@@ -42,7 +57,7 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
       <View style={this.props.style}>
         <View style={this.styles.searchBar}>
           <TextInput
-            style={appStyles.userInput}
+            style={this.styles.searchText}
             onChangeText={(value) => {
               this.setState({ searchString: value });
             }}
@@ -53,33 +68,34 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
             }}
             onBlur={() => this.setState({ hasFocus: false })}
           />
-          <Button
-            title="🔍"
-            onPress={() => {
-              this.props.onSelect(this.state.searchString, this.state.selectedValue);
-              this.setState({ hasFocus: false, selectedValue: undefined });
-            }}
-          />
-
+          <View>
+            <Button
+              title="🔍"
+              onPress={() => this.onSubmit()}
+            />
+          </View>
         </View>
         <View style={this.styles.searchResults}>
           {
             this.state.hasFocus &&
-          searchResults.map((value: T) => {
-            return (
-              <Button
-                key={this.props.displayKey(value)}
-                title={this.props.displayValue(value)}
-                color='black'
-                onPress={() => {
-                  this.setState({
-                    searchString: this.props.displayValue(value),
-                    selectedValue: value,
-                  });
-                }}
-              />
-            );
-          })
+            searchResults.map((value: T) => {
+              return (
+                <TouchableWithoutFeedback
+                  key={this.props.displayKey(value)}
+                  onPress={() => {
+                    this.setState({
+                      searchString: this.props.displayValue(value),
+                      selectedValue: value,
+                      hasFocus: false,
+                    });
+                  }}
+                >
+                  <Text style={this.styles.searchResultsButton}>
+                    {this.props.displayValue(value)}
+                  </Text>
+                </TouchableWithoutFeedback>
+              );
+            })
           }
         </View>
 

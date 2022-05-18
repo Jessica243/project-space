@@ -39,6 +39,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     topLeftCallout: {
       marginTop: 45,
       marginLeft: 20,
+      width: Dimensions.get('window').width - 90,
     },
     topRightCallout: {
       right: 0,
