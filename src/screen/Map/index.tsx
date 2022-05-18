@@ -58,6 +58,7 @@ class Map extends Component<MapProps, MapState> {
   onMapReady = () => {
     this.setState({ loading: false });
     if(this.props.settings.speechEnabled){
+      speak(`Hi ${this.props.user.firstName}.`);
       speak('Please tell me where you want to go, so I can find you a carpark.');
     }
   };
