@@ -62,6 +62,7 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
               this.setState({ searchString: value });
             }}
             value={this.state.searchString}
+            placeholderTextColor="#000"
             placeholder={this.props.placeholder}
             onKeyPress={() => {
               this.setState({ hasFocus: true });
