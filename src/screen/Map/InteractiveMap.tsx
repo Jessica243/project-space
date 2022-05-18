@@ -1,10 +1,10 @@
 import { LocationObject } from 'expo-location';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Button, StyleSheet, Dimensions, Text } from 'react-native';
 import MapView, { Callout } from 'react-native-maps';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
-import { Avatar } from "@rneui/themed";
+import { Avatar } from '@rneui/themed';
 // import { CheckBox } from 'react-native-elements';
 
 interface InteractiveMapProps {
@@ -14,9 +14,9 @@ interface InteractiveMapProps {
 }
 
 const InteractiveMap = ({ location, onOpenSettings, onOpenTimer }: InteractiveMapProps) => {
-  const [searchString, setSearchString] = useState('');
-  const [onlyShowFreeParking, setOnlyShowFreeParking] = useState(false);
-  const [paidParkingButtonText, setPaidParkingButtonText] = useState('show free parking only');
+  const [ searchString, setSearchString ] = useState('');
+  const [ onlyShowFreeParking, setOnlyShowFreeParking ] = useState(false);
+  const [ paidParkingButtonText, setPaidParkingButtonText ] = useState('show free parking only');
 
   const showDestinationOnMap = () => {
     // TODO: open driving directions
@@ -34,7 +34,9 @@ const InteractiveMap = ({ location, onOpenSettings, onOpenTimer }: InteractiveMa
 
   const displayParkingSpots = parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
     if(onlyShowFreeParking) {
-      return parkingSpot.type === ParkingSpotType.Free_LotCovered || parkingSpot.type === ParkingSpotType.Free_LotUncovered || parkingSpot.type === ParkingSpotType.Free_Street;  
+      return parkingSpot.type === ParkingSpotType.Free_LotCovered
+        || parkingSpot.type === ParkingSpotType.Free_LotUncovered
+        || parkingSpot.type === ParkingSpotType.Free_Street;
     } else {
       return true;
     }
@@ -54,9 +56,11 @@ const InteractiveMap = ({ location, onOpenSettings, onOpenTimer }: InteractiveMa
         moveOnMarkerPress = {true}
         showsUserLocation={true}
         showsCompass={true}
-        showsPointsOfInterest = {false}  
+        showsPointsOfInterest = {false}
       >
-        { displayParkingSpots.map((props: ParkingSpotLocation)=> <MapMarker key={props.id} {...props}/>) }
+        { displayParkingSpots.map((props: ParkingSpotLocation) =>
+          <MapMarker key={props.id} {...props}/>,
+        ) }
       </MapView>
       <Callout style={componentStyles.topLeftCallout}>
         {/* <View style={appStyles.row}>
@@ -90,7 +94,7 @@ const InteractiveMap = ({ location, onOpenSettings, onOpenTimer }: InteractiveMa
             size={64}
             rounded
             source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRih-FNWiHbIHG6jHWSZyCGTBqWN2chuunYfG6YVaY9SoKoUfQVK_87J7K9oHrMmrlpTVY&usqp=CAU"
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRih-FNWiHbIHG6jHWSZyCGTBqWN2chuunYfG6YVaY9SoKoUfQVK_87J7K9oHrMmrlpTVY&usqp=CAU',
             }}
           />
           <Text>Jess</Text>
@@ -125,7 +129,7 @@ const componentStyles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 20,
-  }
+  },
 });
 
 export default InteractiveMap;

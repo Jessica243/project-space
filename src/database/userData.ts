@@ -7,11 +7,11 @@ export interface UserInformation {
 
 const userInformation: Array<UserInformation> = [
   {
-    firstName: "Jessica",
-    surname: "Hu",
-    password: "password12",
-    email: "jessica@mail.com"
-  }
+    firstName: 'Jessica',
+    surname: 'Hu',
+    password: 'password12',
+    email: 'jessica@mail.com',
+  },
 ];
 
 export default userInformation;

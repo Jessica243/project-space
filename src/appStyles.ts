@@ -10,7 +10,7 @@ const appStyles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   link: {
     fontSize: 12,
@@ -23,13 +23,13 @@ const appStyles = StyleSheet.create({
     color: 'red',
   },
   buttonRow: {
-    flexDirection:"row",
+    flexDirection:'row',
     justifyContent: 'center',
   },
   row: {
-    flexDirection: "row",
-    width: "100%"
-  }
+    flexDirection: 'row',
+    width: '100%',
+  },
 });
 
 export default appStyles;

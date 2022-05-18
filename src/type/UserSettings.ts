@@ -1,4 +1,4 @@
-import ParkingPreference from "./ParkingPreference";
+import ParkingPreference from './ParkingPreference';
 
 interface UserSettings {
   preference: ParkingPreference,

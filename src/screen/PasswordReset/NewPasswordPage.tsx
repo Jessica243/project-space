@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
+import validate from '../../util/validator';
 
 interface NewPasswordPageProps {
   onSuccess: () => void,
@@ -9,69 +10,101 @@ interface NewPasswordPageProps {
   selectedUser: UserInformation,
 }
 
-const NewPasswordPage = ({ selectedUser, onSuccess, onCancel }: NewPasswordPageProps) => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+interface NewPasswordPageState {
+  password: string,
+  confirmPassword: string,
+  passwordError: string,
+  confirmPasswordError: string,
+}
 
-  const onSubmit = () => {
-    let validPassword = true;
-    let validConfirmPassword = true;
-    setPasswordError('');
-    setConfirmPasswordError('');
+class NewPasswordPage extends Component<NewPasswordPageProps, NewPasswordPageState> {
+  state: NewPasswordPageState = {
+    password: '',
+    confirmPassword: '',
+    passwordError: '',
+    confirmPasswordError: '',
+  };
 
-    if(password.length == 0) {
-      setPasswordError("Please enter your password");
-      validPassword = false;
-    }
+  isLengthGreaterThanZero = (value: string) => value.length > 0;
 
-    if(confirmPassword !== password){
-      setConfirmPasswordError("Please check, your password don't match");
-      validConfirmPassword = false;
-    }
+  isPasswordTheSame = (password: string) => (confirmPassword: string) => {
+    return password === confirmPassword;
+  };
 
-    if(validPassword && validConfirmPassword) {
-      selectedUser.password = password;
-      onSuccess();
+  onSubmit = () => {
+    this.setState({ passwordError: '', confirmPasswordError: '' });
+
+    const passwordResult = validate(this.state.password, [
+      {
+        check: this.isLengthGreaterThanZero,
+        errorMsg: 'Please enter your password',
+      },
+    ]);
+
+    const confirmPasswordResult = validate(this.state.confirmPassword, [
+      {
+        check: this.isPasswordTheSame(this.state.password),
+        errorMsg: "Please check, your password don't match",
+      },
+    ]);
+
+    if(passwordResult.isValid && confirmPasswordResult.isValid) {
+      this.props.selectedUser.password = this.state.password;
+      this.props.onSuccess();
+    } else {
+      const [ passwordError ] = passwordResult.errorMessages;
+      const [ confirmPasswordError ] = confirmPasswordResult.errorMessages;
+      this.setState({
+        passwordError: passwordError || '',
+        confirmPasswordError: confirmPasswordError || '',
+      });
     }
   };
 
-  return (
-    <View>
-      <Text>Please enter your new password</Text>
+  render(){
+    return (
       <View>
-        <TextInput
-          style={appStyles.userInput}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-        />
-        { passwordError.length > 0 && <Text style={appStyles.validationError}>{passwordError}</Text> }
+        <Text>Please enter your new password</Text>
+        <View>
+          <TextInput
+            style={appStyles.userInput}
+            onChangeText={(value) => this.setState({ password: value })}
+            value={this.state.password}
+            secureTextEntry={true}
+            placeholder="Password"
+          />
+          {
+            this.state.passwordError.length > 0 &&
+            <Text style={appStyles.validationError}>{this.state.passwordError}</Text>
+          }
+        </View>
+        <View>
+          <TextInput
+            style={appStyles.userInput}
+            onChangeText={(value) => this.setState({ confirmPassword: value })}
+            value={this.state.confirmPassword}
+            secureTextEntry={true}
+            placeholder="Confirm password"
+          />
+          {
+            this.state.confirmPasswordError.length > 0 &&
+            <Text style={appStyles.validationError}>{this.state.confirmPasswordError}</Text>
+          }
+        </View>
+        <View style={appStyles.buttonRow}>
+          <Button
+            onPress={this.props.onCancel}
+            title="Cancel"
+          />
+          <Button
+            onPress={this.onSubmit}
+            title="Save new password"
+          />
+        </View>
       </View>
-      <View>
-        <TextInput
-          style={appStyles.userInput}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          secureTextEntry={true}
-          placeholder="Confirm password"
-        />
-        { confirmPasswordError.length > 0 && <Text style={appStyles.validationError}>{confirmPasswordError}</Text> }
-      </View>
-      <View style={appStyles.buttonRow}>
-        <Button
-          onPress={onCancel}
-          title="Cancel"
-        />
-        <Button
-          onPress={onSubmit}
-          title="Save new password"
-        />
-      </View>
-    </View>
-  );
-};
+    );
+  }
+
+}
 
 export default NewPasswordPage;

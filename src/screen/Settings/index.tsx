@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
 import UserSettings from '../../type/UserSettings';
 import ParkingPreference, { parkingPreference, possibleParkingPreferences } from '../../type/ParkingPreference';
@@ -12,45 +12,56 @@ interface SettingProps {
   settings: UserSettings,
 }
 
+interface SettingState {
+  preference: ParkingPreference;
+  speechEnabled: boolean;
+}
 
-const Setting = ({onSave, onCancel, settings}: SettingProps) => {
-  const [preference, setPreference] = useState<ParkingPreference>(settings.preference);
-  const [speechEnabled, setSpeechEnabled] = useState<boolean>(settings.speechEnabled);
+class Setting extends Component<SettingProps, SettingState> {
+  state: SettingState = {
+    preference: this.props.settings.preference,
+    speechEnabled: this.props.settings.speechEnabled,
+  };
 
-  const items = possibleParkingPreferences.map(p => ({label: parkingPreference[p], value: p}));
-
-  return (
-    <View>
-      <Text style={appStyles.title}>Preferences</Text>
-      <RNPickerSelect
-        onValueChange={(value) => setPreference(value)}
-        value={preference}
-        items={items}
-      />
-      <Text style={appStyles.title}>Speech</Text>
+  render() {
+    return (
       <View>
+        <Text style={appStyles.title}>Preferences</Text>
         <RNPickerSelect
-          onValueChange={(value) => setSpeechEnabled(value)}
-          value={speechEnabled}
-          items={[{label: 'Speech enabled', value: true}, {label: 'No speech', value: false}]}
+          onValueChange={(value) => this.setState({ preference: value })}
+          value={this.state.preference}
+          items={possibleParkingPreferences.map(p => ({
+            label: parkingPreference[ p ],
+            value: p,
+          }))}
         />
+        <Text style={appStyles.title}>Speech</Text>
+        <View>
+          <RNPickerSelect
+            onValueChange={(value) => this.setState({ speechEnabled: value })}
+            value={this.state.speechEnabled}
+            items={[
+              { label: 'Speech enabled', value: true },
+              { label: 'No speech', value: false },
+            ]}
+          />
+        </View>
+        <View style={appStyles.buttonRow}>
+          <Button
+            onPress={this.props.onCancel}
+            title="Cancel"
+          />
+          <Button
+            onPress={() => this.props.onSave({
+              preference: this.state.preference,
+              speechEnabled: this.state.speechEnabled,
+            })}
+            title="Save"
+          />
+        </View>
       </View>
-      <View style={appStyles.buttonRow}>
-        <Button
-          onPress={onCancel}
-          title="Cancel"
-        />
-        <Button
-          onPress={() => onSave({
-            preference,
-            speechEnabled: speechEnabled,
-          })}
-          title="Save"
-        />
-      </View>
-    </View>
-
-  );
-};
+    );
+  }
+}
 
 export default Setting;

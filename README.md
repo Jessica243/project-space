@@ -27,7 +27,7 @@ Note:
 
 ## Linting
 
-1. `npm run fixLint`
+1. `npm run lint:fix`
 
 ## Publish
 

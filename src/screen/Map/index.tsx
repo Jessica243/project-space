@@ -1,10 +1,11 @@
-import React, { useState, useEffect, } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import React, { Component } from 'react';
+import { ActivityIndicator, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
-import MainView from './MainView';
-import {speak} from 'expo-speech';
+import { speak } from 'expo-speech';
 import AppState from '../../type/UserSettings';
+import InteractiveMap from './InteractiveMap';
+import appStyles from '../../appStyles';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -12,52 +13,70 @@ interface MapProps {
   settings: AppState;
 }
 
-const Map = ({onOpenSettings, settings, onOpenTimer}: MapProps) => {
-  const [location, setLocation] = useState<LocationObject | null>(null);
-  const [locationError, setLocationError] = useState('');
-  const [loading, setLoading] = useState(true);
+interface MapState {
+  location: LocationObject | null;
+  locationError: string;
+  loading: boolean;
+}
 
-  useEffect(() => {
+class Map extends Component<MapProps, MapState> {
+  state: MapState = {
+    location: null,
+    locationError: '',
+    loading: true,
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.onMapReady();
+    }, 3000);
+
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setLocationError('Permission to access location was denied.\nPlease grant permission and try again.');
+        this.setState({ locationError: 'Permission to access location was denied.\nPlease grant permission and try again.' });
         return;
       }
 
       const location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      this.setState({ location });
     })();
+  }
 
-    setTimeout(() => {
-      onMapReady();  
-    }, 3000);
-  }, []);
-
-  const onMapReady = () => {
-    setLoading(false);
-    if(settings.speechEnabled){
-      speak("Please tell me where you want to go, so I can find you a carpark.");
+  onMapReady = () => {
+    this.setState({ loading: false });
+    if(this.props.settings.speechEnabled){
+      speak('Please tell me where you want to go, so I can find you a carpark.');
     }
   };
 
-  return (
-    <View>
-      {
-        loading &&
+  getPage = () => {
+    if(this.state.loading){
+      return (
         <ActivityIndicator size='large'/>
-      }
-      {
-        !loading &&
-        <MainView 
-          location={location}
-          locationError={locationError}
-          onOpenSettings={onOpenSettings}
-          onOpenTimer={onOpenTimer}
+      );
+    } else if(this.state.locationError.length === 0 && this.state.location !== null) {
+      return (
+        <InteractiveMap
+          location={this.state.location}
+          onOpenSettings={this.props.onOpenSettings}
+          onOpenTimer={this.props.onOpenTimer}
         />
-      }
-    </View>
-  );
-};
+      );
+    } else {
+      return (
+        <Text style={appStyles.validationError}>
+          {this.state.locationError}
+        </Text>
+      );
+    }
+  };
+
+  render() {
+    return (
+      <View>{this.getPage()}</View>
+    );
+  }
+}
 
 export default Map;
