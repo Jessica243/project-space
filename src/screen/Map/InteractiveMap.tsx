@@ -75,22 +75,27 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
 
   searchLocation = (location?: MapLocation) => {
     if (location) {
-      this.setState({
-        location: {
-          coords: {
-            latitude: location.latitude,
-            longitude: location.longitude,
-            altitude: null,
-            accuracy: null,
-            altitudeAccuracy: null,
-            heading: null,
-            speed: null,
+      if(location.id === 1){
+        this.setState({
+          location: this.props.location,
+        });
+      }else {
+        this.setState({
+          location: {
+            coords: {
+              latitude: location.latitude,
+              longitude: location.longitude,
+              altitude: null,
+              accuracy: null,
+              altitudeAccuracy: null,
+              heading: null,
+              speed: null,
+            },
+            timestamp: 0,
           },
-          timestamp: 0,
-        },
-      });
+        });
+      }
 
-      console.log('>>> set location to ', this.state.location);
     }
   };
 
@@ -108,7 +113,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     return (
       <View>
         <MapView
-          initialRegion={{
+          region={{
             latitude: this.state.location.coords.latitude,
             longitude: this.state.location.coords.longitude,
             latitudeDelta: 0.01,

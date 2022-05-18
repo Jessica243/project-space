@@ -65,7 +65,7 @@ Note:
   - [x] Add login
   - [x] Add password reset
   - [x] Add dummy database
-  - [ ] Add search for locations on the map (dropdown to select)
+  - [x] Add search for locations on the map
   - [ ] Add parking information map overlay
   - [ ] Add parking detail page
   - [ ] Add parking timer

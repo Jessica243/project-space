@@ -37,7 +37,6 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
 
   render() {
     const searchResults = this.props.filterValues(this.state.searchString);
-
     return (
       <View>
         <View style={this.styles.searchBar}>
@@ -48,14 +47,16 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
             }}
             value={this.state.searchString}
             placeholder={this.props.placeholder}
-            onFocus={() => this.setState({ hasFocus: true })}
+            onKeyPress={() => {
+              this.setState({ hasFocus: true });
+            }}
             onBlur={() => this.setState({ hasFocus: false })}
           />
           <Button
             title="🔍"
             onPress={() => {
               this.props.onSelect(this.state.searchString, this.state.selectedValue);
-              this.setState({ hasFocus: false });
+              this.setState({ hasFocus: false, selectedValue: undefined });
             }}
           />
 
