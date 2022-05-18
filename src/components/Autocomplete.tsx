@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { Button, StyleSheet, TextInput, View, StyleProp, ViewStyle } from 'react-native';
 import appStyles from '../appStyles';
 
 interface AutocompleteProps<T> {
   placeholder: string;
+  style?: StyleProp<ViewStyle>;
   onSelect: (searchString: string, value?: T) => void;
   filterValues: (value: string) => T[];
   displayValue: (value: T) => string;
@@ -38,7 +39,7 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
   render() {
     const searchResults = this.props.filterValues(this.state.searchString);
     return (
-      <View>
+      <View style={this.props.style}>
         <View style={this.styles.searchBar}>
           <TextInput
             style={appStyles.userInput}

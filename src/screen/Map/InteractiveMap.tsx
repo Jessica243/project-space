@@ -37,16 +37,18 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
       height: Dimensions.get('window').height,
     },
     topLeftCallout: {
-      margin: 30,
+      marginTop: 45,
+      marginLeft: 20,
     },
     topRightCallout: {
       right: 0,
-      margin: 30,
+      marginTop: 45,
+      marginRight: 20,
     },
     bottomRightCallout: {
       right: 0,
       bottom: 0,
-      margin: 30,
+      margin: 20,
     },
     avatar: {
       backgroundColor: 'white',
