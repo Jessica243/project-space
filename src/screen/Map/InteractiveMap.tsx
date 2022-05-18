@@ -7,10 +7,12 @@ import MapMarker from './MapMarker';
 import { Avatar } from '@rneui/themed';
 import mapLocations, { MapLocation } from '../../database/mapLocations';
 import Autocomplete from '../../components/Autocomplete';
+import { UserInformation } from '../../database/userData';
 // import { CheckBox } from 'react-native-elements';
 
 interface InteractiveMapProps {
-  location: LocationObject
+  location: LocationObject;
+  user: UserInformation;
   onOpenSettings: () => void;
   onOpenTimer: () => void;
 }
@@ -161,7 +163,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
                 uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRih-FNWiHbIHG6jHWSZyCGTBqWN2chuunYfG6YVaY9SoKoUfQVK_87J7K9oHrMmrlpTVY&usqp=CAU',
               }}
             />
-            <Text>Jess</Text>
+            <Text>{this.props.user.firstName} {this.props.user.surname}</Text>
           </View>
         </Callout>
       </View>

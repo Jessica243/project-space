@@ -7,7 +7,7 @@ interface UserSettings {
 
 export const initialUserSettings: UserSettings = {
   preference: ParkingPreference.Distance,
-  speechEnabled: false, //TODO: change back to true
+  speechEnabled: true,
 };
 
 export default UserSettings;

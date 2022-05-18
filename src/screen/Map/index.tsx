@@ -6,11 +6,13 @@ import { speak } from 'expo-speech';
 import AppState from '../../type/UserSettings';
 import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
+import { UserInformation } from '../../database/userData';
 
 interface MapProps {
   onOpenSettings: () => void;
   onOpenTimer: () => void;
   settings: AppState;
+  user: UserInformation;
 }
 
 interface MapState {
@@ -61,6 +63,7 @@ class Map extends Component<MapProps, MapState> {
           location={this.state.location}
           onOpenSettings={this.props.onOpenSettings}
           onOpenTimer={this.props.onOpenTimer}
+          user={this.props.user}
         />
       );
     } else {

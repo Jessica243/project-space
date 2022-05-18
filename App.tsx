@@ -7,6 +7,7 @@ import PasswordReset from './src/screen/PasswordReset';
 import Settings from './src/screen/Settings';
 import UserSettings, { initialUserSettings } from './src/type/UserSettings';
 import Timer from './src/screen/Timer';
+import { UserInformation } from './src/database/userData';
 
 enum AppPages {
   Login,
@@ -20,12 +21,14 @@ enum AppPages {
 interface AppState {
   page: AppPages;
   userSettings: UserSettings;
+  user?: UserInformation;
 }
 
 class App extends Component<null, AppState> {
   state: AppState = {
-    page: AppPages.Map, // TODO: change back to Login
+    page: AppPages.Login,
     userSettings: initialUserSettings,
+    user: undefined,
   };
 
   styles = StyleSheet.create({
@@ -42,7 +45,10 @@ class App extends Component<null, AppState> {
     case AppPages.Login:
       return (
         <Login
-          onLoginSuccess={() => this.setState({ page: AppPages.Map })}
+          onLoginSuccess={(user: UserInformation) => this.setState({
+            page: AppPages.Map,
+            user,
+          })}
           onRequestRegistration={() => this.setState({ page: AppPages.Registration })}
           onForgotPassword={() => this.setState({ page: AppPages.PasswordReset })}
         />
@@ -67,6 +73,8 @@ class App extends Component<null, AppState> {
           onOpenSettings={() => this.setState({ page: AppPages.Settings })}
           settings={this.state.userSettings}
           onOpenTimer={() => this.setState({ page: AppPages.Timer })}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          user={this.state.user!}
         />
       );
     case AppPages.Settings:

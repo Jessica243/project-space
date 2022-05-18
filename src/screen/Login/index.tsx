@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Text, TextInput, StyleSheet, View } from 'react-native';
 import appStyles from '../../appStyles';
-import userInformation from '../../database/userData';
+import userInformation, { UserInformation } from '../../database/userData';
 import validate from '../../util/validator';
 
 interface LoginProps {
-  onLoginSuccess: () => void,
+  onLoginSuccess: (user: UserInformation) => void,
   onRequestRegistration: () => void,
   onForgotPassword: () => void,
 }
@@ -97,7 +97,9 @@ class Login extends Component<LoginProps, LoginState> {
     ]);
 
     if(emailResult.isValid && passwordResult.isValid) {
-      this.props.onLoginSuccess();
+      const user = this.findUserByEmail(this.state.email);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.props.onLoginSuccess(user!);
     } else {
       const [ emailError ] = emailResult.errorMessages;
       const [ passwordError ] = passwordResult.errorMessages;
