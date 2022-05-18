@@ -24,7 +24,7 @@ interface AppState {
 
 class App extends Component<null, AppState> {
   state: AppState = {
-    page: AppPages.Map,
+    page: AppPages.Map, // TODO: change back to Login
     userSettings: initialUserSettings,
   };
 

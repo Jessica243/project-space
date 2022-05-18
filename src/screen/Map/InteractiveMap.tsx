@@ -141,7 +141,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
           />
         </Callout>
         <Callout style={this.styles.topRightCallout}>
-          <Button title="Timer" onPress={this.props.onOpenTimer} />
+          <Button title="⏰" onPress={this.props.onOpenTimer} />
         </Callout>
         <Callout style={this.styles.bottomRightCallout}>
           <View style={this.styles.avatar}>
