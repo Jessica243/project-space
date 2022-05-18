@@ -24,7 +24,7 @@ interface AppState {
 
 class App extends Component<null, AppState> {
   state: AppState = {
-    page: AppPages.Login,
+    page: AppPages.Map,
     userSettings: initialUserSettings,
   };
 
