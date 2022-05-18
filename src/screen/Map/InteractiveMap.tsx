@@ -5,6 +5,8 @@ import MapView, { Callout } from 'react-native-maps';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 import { Avatar } from '@rneui/themed';
+import mapLocations, { MapLocation } from '../../database/mapLocations';
+import Autocomplete from '../../components/Autocomplete';
 // import { CheckBox } from 'react-native-elements';
 
 interface InteractiveMapProps {
@@ -16,13 +18,18 @@ interface InteractiveMapProps {
 interface InteractiveMapState {
   searchString: string;
   onlyShowFreeParking: boolean;
+  location: LocationObject;
 }
 
 class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState> {
-  state: InteractiveMapState = {
-    searchString: '',
-    onlyShowFreeParking: false,
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      searchString: '',
+      onlyShowFreeParking: false,
+      location: props.location,
+    };
+  }
 
   styles = StyleSheet.create({
     map: {
@@ -60,6 +67,33 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     this.setState({ onlyShowFreeParking: !this.state.onlyShowFreeParking });
   };
 
+  filterMapLocations = (name: string) => {
+    return mapLocations.filter((mapLocation: MapLocation) => {
+      return mapLocation.name.toLowerCase().includes(name.toLowerCase());
+    });
+  };
+
+  searchLocation = (location?: MapLocation) => {
+    if (location) {
+      this.setState({
+        location: {
+          coords: {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            altitude: null,
+            accuracy: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: 0,
+        },
+      });
+
+      console.log('>>> set location to ', this.state.location);
+    }
+  };
+
   render() {
     const displayParkingSpots = parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
       if(this.state.onlyShowFreeParking) {
@@ -75,8 +109,8 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
       <View>
         <MapView
           initialRegion={{
-            latitude: this.props.location.coords.latitude,
-            longitude: this.props.location.coords.longitude,
+            latitude: this.state.location.coords.latitude,
+            longitude: this.state.location.coords.longitude,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
@@ -92,22 +126,15 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
           ) }
         </MapView>
         <Callout style={this.styles.topLeftCallout}>
-          {/* <View style={appStyles.row}>
-            <TextInput
-              style={appStyles.userInput}
-              onChangeText={setSearchString}
-              value={searchString}
-              placeholder="Current location"
-            />
-            <Button
-              onPress={showDestinationOnMap}
-              title="Open maps"
-            />
-          </View> */}
-          {/* <CheckBox
-            title='Click Here'
-            checked={true}
-          /> */}
+          <Autocomplete
+            placeholder="Current location"
+            onSelect={(_: string, value?: MapLocation) => {
+              this.searchLocation(value);
+            }}
+            filterValues={(value: string) => this.filterMapLocations(value)}
+            displayValue={(value: MapLocation) => value.name}
+            displayKey={(value: MapLocation) => value.id.toString()}
+          />
           <Button
             onPress={this.toggleParkingPaidParkingLocations}
             title={this.state.onlyShowFreeParking ? 'show all parking': 'show free parking only'}
