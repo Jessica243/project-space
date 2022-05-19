@@ -22,7 +22,7 @@ class Registration extends Component<RegistrationProps, RegistrationState> {
     case 1:
       return (
         <View>
-          <Text>Feature 1: Voice Enabled Search</Text>
+          <Text>Feature 1: Save Driving</Text>
           <Text>Find parkings that match your preferences</Text>
           <View style={appStyles.buttonRow}>
             <Button
