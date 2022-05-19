@@ -5,17 +5,20 @@ import MapView, { Callout } from 'react-native-maps';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 import { Avatar } from '@rneui/themed';
-import mapLocations, { MapLocation } from '../../database/mapLocations';
+import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import Autocomplete from '../../components/Autocomplete';
 import { UserInformation } from '../../database/userData';
+import UserSettings from '../../type/UserSettings';
 // import { CheckBox } from 'react-native-elements';
 
 interface InteractiveMapProps {
   location: LocationObject;
   user: UserInformation;
+  settings: UserSettings;
   onOpenSettings: () => void;
   onOpenTimer: () => void;
-  onDrive: (location: ParkingSpotLocation) => void;
+  onDetail: (location: ParkingSpotLocation) => void;
+  onPlayVoiceInteraction: () => void;
 }
 
 interface InteractiveMapState {
@@ -64,10 +67,6 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
       borderRadius: 20,
     },
   });
-
-  showDestinationOnMap = () => {
-    // TODO: open driving directions
-  };
 
   toggleParkingPaidParkingLocations = () => {
     this.setState({ onlyShowFreeParking: !this.state.onlyShowFreeParking });
@@ -137,7 +136,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
               <MapMarker
                 key={props.id}
                 parking={props}
-                onDrive={this.props.onDrive}
+                onDetail={this.props.onDetail}
               />
             );
           })}
@@ -162,6 +161,10 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
         </Callout>
         <Callout style={this.styles.bottomRightCallout}>
           <View style={this.styles.avatar}>
+            {
+              this.props.settings.speechEnabled &&
+              <Button title="🎙" onPress={() => this.props.onPlayVoiceInteraction()} />
+            }
             <Avatar
               onPress={this.props.onOpenSettings}
               size={64}

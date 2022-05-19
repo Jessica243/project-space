@@ -8,7 +8,8 @@ import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
 import DrivePage from './DrivePage';
-import { ParkingSpotLocation } from '../../database/parkingData';
+import parkingLocations, { ParkingSpotLocation } from '../../database/parkingData';
+import DetailPage from './DetailPage';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -27,7 +28,8 @@ interface MapState {
 
 enum MapPages {
   MAP,
-  DRIVE
+  DRIVE,
+  DETAIL,
 }
 
 class Map extends Component<MapProps, MapState> {
@@ -41,7 +43,7 @@ class Map extends Component<MapProps, MapState> {
   componentDidMount() {
     setTimeout(() => {
       this.onMapReady();
-    }, 3000);
+    }, 4000);
 
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -55,11 +57,35 @@ class Map extends Component<MapProps, MapState> {
     })();
   }
 
+  playVoiceInteraction = async () => {
+    speak('Where would you like to go, and how long would you like to park?');
+    speak(`I remember you wanted to find ${this.props.settings.preference} parking. Is this still correct?`);
+    const loc = 'Box Hill';
+    const parkingHours = 2;
+    const preference = 'closest';
+    speak(`Sure. Searching locations around ${loc} for ${parkingHours} hours that are ${preference}.`);
+    const results = parkingLocations.slice(0, 3);
+    speak("I've found the following results.");
+    results.forEach(async r => {
+      speak(r.name);
+    });
+    speak('where would you like to park?');
+    const parkingLocation = results[ 2 ];
+    speak(`Thank you. Showing you details for ${parkingLocation.name}.`);
+    setTimeout(() => {
+      this.setState({ page: MapPages.DETAIL, destination: parkingLocation });
+    }, 23900);
+    speak('Would you like to drive here?');
+    speak('Showing driving directions to this carpark');
+    setTimeout(() => {
+      this.setState({ page: MapPages.DRIVE });
+    }, 29000);
+  };
+
   onMapReady = () => {
     this.setState({ loading: false });
     if(this.props.settings.speechEnabled){
       speak(`Hi ${this.props.user.firstName}.`);
-      speak('Please tell me where you want to go, so I can find you a carpark.');
     }
   };
 
@@ -73,21 +99,33 @@ class Map extends Component<MapProps, MapState> {
       case MapPages.MAP:
         return (
           <InteractiveMap
-            onDrive={(location: ParkingSpotLocation) => {
-              this.setState({ page: MapPages.DRIVE, destination: location });
+            onDetail={(location: ParkingSpotLocation) => {
+              this.setState({ page: MapPages.DETAIL, destination: location });
             }}
             location={this.state.location}
             onOpenSettings={this.props.onOpenSettings}
             onOpenTimer={this.props.onOpenTimer}
             user={this.props.user}
+            onPlayVoiceInteraction={this.playVoiceInteraction}
+            settings={this.props.settings}
           />
         );
       case MapPages.DRIVE:
         return (
           <DrivePage
-            onBack={() => this.setState({ page: MapPages.MAP })}
+            onBack={() => this.setState({ page: MapPages.DETAIL })}
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             destination={this.state.destination!}
+          />
+        );
+      case MapPages.DETAIL:
+        return (
+          <DetailPage
+            user={this.props.user}
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            destination={this.state.destination!}
+            onBack={() => this.setState({ page: MapPages.MAP })}
+            onDrive={() => this.setState({ page: MapPages.DRIVE })}
           />
         );
       default: return null;

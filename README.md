@@ -67,16 +67,11 @@ Note:
   - [x] Add dummy database
   - [x] Add search for locations on the map
   - [x] Add parking information map overlay
+  - [x] Add parking detail page
   - [ ] Add prices and other parking details and show on the map
   - [ ] Add parking list view (same info as the map search results)
   - [x] Add drive to parking dummy
-- [ ] Voice features
-  - [ ] Drive to destination flow
-    - [ ] Ask the driver where they want to go
-    - [ ] Listen for the location the driver want to go
-    - [ ] Read the possible parkings in the area to the driver
-    - [ ] Listen for the choice the driver selected
-    - [ ] Ask the driver if they want to drive there
-    - [ ] List for confirmation from the driver
+- [x] Voice features
+  - [x] Drive to destination flow (dummy flow)
 - [ ] Add comments to code for hand in
 - [ ] Publish the final app on expo for hand in

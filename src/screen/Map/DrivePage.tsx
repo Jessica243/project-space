@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Text, View } from 'react-native';
+import appStyles from '../../appStyles';
 import { ParkingSpotLocation } from '../../database/parkingData';
 
 interface DrivePageProps {
@@ -10,11 +11,11 @@ interface DrivePageProps {
 class DrivePage extends Component<DrivePageProps, any> {
   render() {
     return (
-      <View>
+      <View style={appStyles.page}>
         <Text>Drive to [{this.props.destination.name}]</Text>
         <Text>{this.props.destination.address}</Text>
         <Text></Text>
-        <Text>Coming soon!</Text>
+        <Text style={appStyles.validationError}>Coming soon!</Text>
         <Button title="Back" onPress={this.props.onBack} />
       </View>
     );
