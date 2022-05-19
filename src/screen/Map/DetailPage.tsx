@@ -32,12 +32,14 @@ class DetailPage extends Component<DetailPageProps, DetailPageState> {
     },
     otherParkingComment: {
       backgroundColor: '#f0f0f0',
-      margin: 5,
+      marginTop: 5,
+      marginBottom: 5,
       padding: 5,
     },
     myParkingComment: {
       backgroundColor: 'lightblue',
-      margin: 5,
+      marginTop: 5,
+      marginBottom: 5,
       padding: 5,
     },
     newComment: {
@@ -104,7 +106,7 @@ class DetailPage extends Component<DetailPageProps, DetailPageState> {
             comments.map(comment => {
               const user = this.findUserById(comment.userId);
 
-              const commentStyle = comment.id == this.props.user.id
+              const commentStyle = comment.userId == this.props.user.id
                 ? this.styles.myParkingComment
                 : this.styles.otherParkingComment;
 
