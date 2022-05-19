@@ -28,7 +28,6 @@ class App extends Component<null, AppState> {
   state: AppState = {
     page: AppPages.Login,
     userSettings: initialUserSettings,
-    user: undefined,
   };
 
   styles = StyleSheet.create({

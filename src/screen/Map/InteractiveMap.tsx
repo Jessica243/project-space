@@ -5,7 +5,7 @@ import MapView, { Callout } from 'react-native-maps';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
 import MapMarker from './MapMarker';
 import { Avatar } from '@rneui/themed';
-import mapLocations, { MapLocation } from '../../database/mapLocations';
+import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import Autocomplete from '../../components/Autocomplete';
 import { UserInformation } from '../../database/userData';
 // import { CheckBox } from 'react-native-elements';
@@ -15,7 +15,7 @@ interface InteractiveMapProps {
   user: UserInformation;
   onOpenSettings: () => void;
   onOpenTimer: () => void;
-  onDrive: (location: ParkingSpotLocation) => void;
+  onDetail: (location: ParkingSpotLocation) => void;
 }
 
 interface InteractiveMapState {
@@ -137,7 +137,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
               <MapMarker
                 key={props.id}
                 parking={props}
-                onDrive={this.props.onDrive}
+                onDetail={this.props.onDetail}
               />
             );
           })}

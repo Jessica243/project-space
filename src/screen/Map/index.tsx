@@ -9,6 +9,7 @@ import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
 import DrivePage from './DrivePage';
 import { ParkingSpotLocation } from '../../database/parkingData';
+import DetailPage from './DetailPage';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -27,7 +28,8 @@ interface MapState {
 
 enum MapPages {
   MAP,
-  DRIVE
+  DRIVE,
+  DETAIL,
 }
 
 class Map extends Component<MapProps, MapState> {
@@ -73,8 +75,8 @@ class Map extends Component<MapProps, MapState> {
       case MapPages.MAP:
         return (
           <InteractiveMap
-            onDrive={(location: ParkingSpotLocation) => {
-              this.setState({ page: MapPages.DRIVE, destination: location });
+            onDetail={(location: ParkingSpotLocation) => {
+              this.setState({ page: MapPages.DETAIL, destination: location });
             }}
             location={this.state.location}
             onOpenSettings={this.props.onOpenSettings}
@@ -85,9 +87,19 @@ class Map extends Component<MapProps, MapState> {
       case MapPages.DRIVE:
         return (
           <DrivePage
-            onBack={() => this.setState({ page: MapPages.MAP })}
+            onBack={() => this.setState({ page: MapPages.DETAIL })}
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             destination={this.state.destination!}
+          />
+        );
+      case MapPages.DETAIL:
+        return (
+          <DetailPage
+            user={this.props.user}
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            destination={this.state.destination!}
+            onBack={() => this.setState({ page: MapPages.MAP })}
+            onDrive={() => this.setState({ page: MapPages.DRIVE })}
           />
         );
       default: return null;

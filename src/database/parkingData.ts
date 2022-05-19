@@ -17,6 +17,16 @@ export enum ParkingSpotType {
   Paid_LotUncovered,
 }
 
+export const parkingTypeName: Record<ParkingSpotType, string> = {
+  [ ParkingSpotType.Free_LotCovered ]: 'Free covered parking lot',
+  [ ParkingSpotType.Free_LotUncovered ]: 'Free uncovered parking lot',
+  [ ParkingSpotType.Free_Street ]: 'Free street parking',
+
+  [ ParkingSpotType.Paid_LotCovered ]: 'Paid covered parking lot',
+  [ ParkingSpotType.Paid_LotUncovered ]: 'Paid uncovered parking lot',
+  [ ParkingSpotType.Paid_Street ]: 'Paid street parking',
+};
+
 const parkingLocations: Array<ParkingSpotLocation> = [
   {
     id: 1,

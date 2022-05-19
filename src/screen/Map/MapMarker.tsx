@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageURISource, Text, Button } from 'react-native';
 import { Callout, Marker } from 'react-native-maps';
-import { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
+import { ParkingSpotLocation, ParkingSpotType, parkingTypeName } from '../../database/parkingData';
 import parkingRed from '../../../assets/parkingRed.png';
 import parkingOrange from '../../../assets/parkingOrange.png';
 import parkingYellow from '../../../assets/parkingYellow.png';
@@ -19,19 +19,9 @@ const parkingIcon: Record<ParkingSpotType, ImageURISource> = {
   [ ParkingSpotType.Paid_Street ]: parkingRed,
 };
 
-const parkingTypeName: Record<ParkingSpotType, string> = {
-  [ ParkingSpotType.Free_LotCovered ]: 'Free covered parking lot',
-  [ ParkingSpotType.Free_LotUncovered ]: 'Free uncovered parking lot',
-  [ ParkingSpotType.Free_Street ]: 'Free street parking',
-
-  [ ParkingSpotType.Paid_LotCovered ]: 'Paid covered parking lot',
-  [ ParkingSpotType.Paid_LotUncovered ]: 'Paid uncovered parking lot',
-  [ ParkingSpotType.Paid_Street ]: 'Paid street parking',
-};
-
 interface MapMarkerProps {
   parking: ParkingSpotLocation;
-  onDrive: (location: ParkingSpotLocation) => void;
+  onDetail: (location: ParkingSpotLocation) => void;
 }
 
 class MapMarker extends Component<MapMarkerProps, any> {
@@ -53,8 +43,8 @@ class MapMarker extends Component<MapMarkerProps, any> {
           <Text>{this.props.parking.address}</Text>
           <Text>{parkingTypeName[ this.props.parking.type ]}</Text>
           <Button
-            title='Drive'
-            onPress = {()=>this.props.onDrive(this.props.parking)}
+            title='Select parking spot'
+            onPress = {()=>this.props.onDetail(this.props.parking)}
           />
         </Callout>
       </Marker>

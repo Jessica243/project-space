@@ -30,6 +30,14 @@ const appStyles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
+  page: {
+    paddingTop: 45,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
 });
 
 export default appStyles;
