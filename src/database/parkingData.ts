@@ -33,7 +33,7 @@ export const parkingTypeName: Record<ParkingSpotType, string> = {
 const parkingLocations: Array<ParkingSpotLocation> = [
   {
     id: 1,
-    name: 'Wilson Parking - Box Hill Central Car Park Whitehorse Plaza',
+    name: 'Wilson Parking',
     address: '80 Carrington Rd, Box Hill VIC 3128',
     type: ParkingSpotType.Paid_LotCovered,
     price: 1,
@@ -83,7 +83,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     totalSpaces: 10,
   }, {
     id: 6,
-    name: 'Ace Parking | 519 Station St, Box Hill',
+    name: 'Ace Parking',
     address: '519 Station St, Box Hill VIC 3128',
     type: ParkingSpotType.Paid_LotUncovered,
     price:2.8,
@@ -103,7 +103,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     totalSpaces: 50,
   }, {
     id: 8,
-    name: 'Ellingworth Parade Harrow Street Parking Area',
+    name: 'Ellingworth Parade',
     address: '20-24 Ellingworth Parade, Box Hill VIC 3128',
     price: 5,
     type: ParkingSpotType.Paid_LotUncovered,

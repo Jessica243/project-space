@@ -70,8 +70,13 @@ Note:
   - [x] Add parking detail page
   - [ ] Add prices and other parking details and show on the map
   - [ ] Add parking list view (same info as the map search results)
+  - [ ] Add filtering and sorting parking locations
+  - [ ] Add initial preference selection
+  - [x] Add logout button
   - [x] Add drive to parking dummy
+  - [ ] Add feature to move map location as you move
 - [x] Voice features
   - [x] Drive to destination flow (dummy flow)
+  - [ ] Adjust voice playback speed to allow user time to speak
 - [ ] Add comments to code for hand in
 - [ ] Publish the final app on expo for hand in

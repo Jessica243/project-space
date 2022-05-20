@@ -9,6 +9,7 @@ import appStyles from '../../appStyles';
 interface SettingProps {
   onSave: (newSetting: UserSettings) => void,
   onCancel: () => void,
+  onLogout: () => void,
   settings: UserSettings,
 }
 
@@ -57,6 +58,10 @@ class Setting extends Component<SettingProps, SettingState> {
               speechEnabled: this.state.speechEnabled,
             })}
             title="Save"
+          />
+          <Button
+            onPress={this.props.onLogout}
+            title="Logout"
           />
         </View>
       </View>

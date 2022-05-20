@@ -84,6 +84,7 @@ class App extends Component<null, AppState> {
             this.setState({ page: AppPages.Map, userSettings: newSetting });
           }}
           onCancel={() => this.setState({ page: AppPages.Map })}
+          onLogout={() => this.setState({ page: AppPages.Login })}
         />
       );
     case AppPages.Timer:
