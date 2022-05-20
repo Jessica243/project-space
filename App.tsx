@@ -5,7 +5,7 @@ import Registration from './src/screen/Registration';
 import Map from './src/screen/Map';
 import PasswordReset from './src/screen/PasswordReset';
 import Settings from './src/screen/Settings';
-import UserSettings, { initialUserSettings } from './src/type/UserSettings';
+import userSettings, { UserSettings } from './src/database/userSettingsData';
 import Timer from './src/screen/Timer';
 import { UserInformation } from './src/database/userData';
 
@@ -20,14 +20,13 @@ enum AppPages {
 
 interface AppState {
   page: AppPages;
-  userSettings: UserSettings;
+  userSettings?: UserSettings;
   user?: UserInformation;
 }
 
 class App extends Component<null, AppState> {
   state: AppState = {
     page: AppPages.Login,
-    userSettings: initialUserSettings,
   };
 
   styles = StyleSheet.create({
@@ -39,15 +38,33 @@ class App extends Component<null, AppState> {
     },
   });
 
+  findUserSettingsByUserId = (userId: number) => {
+    return userSettings.find(s => s.userId === userId);
+  };
+
   getPage = () => {
     switch (this.state.page) {
     case AppPages.Login:
       return (
         <Login
-          onLoginSuccess={(user: UserInformation) => this.setState({
-            page: AppPages.Map,
-            user,
-          })}
+          onLoginSuccess={(user: UserInformation) => {
+            const settings = this.findUserSettingsByUserId(user.id);
+            if(settings){
+              // This is an existing user
+              this.setState({
+                page: AppPages.Map,
+                user,
+                userSettings: settings,
+              });
+            } else {
+              // This is a new user
+              this.setState({
+                page: AppPages.Settings,
+                user,
+                userSettings: settings,
+              });
+            }
+          }}
           onRequestRegistration={() => this.setState({ page: AppPages.Registration })}
           onForgotPassword={() => this.setState({ page: AppPages.PasswordReset })}
         />
@@ -70,7 +87,8 @@ class App extends Component<null, AppState> {
       return (
         <Map
           onOpenSettings={() => this.setState({ page: AppPages.Settings })}
-          settings={this.state.userSettings}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          settings={this.state.userSettings!}
           onOpenTimer={() => this.setState({ page: AppPages.Timer })}
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           user={this.state.user!}
@@ -79,9 +97,22 @@ class App extends Component<null, AppState> {
     case AppPages.Settings:
       return (
         <Settings
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          user={this.state.user!}
           settings={this.state.userSettings}
           onSave={(newSetting: UserSettings) => {
             this.setState({ page: AppPages.Map, userSettings: newSetting });
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const user = this.findUserSettingsByUserId(this.state.user!.id);
+            if(user){
+              // this is an existing user
+              user.preference = newSetting.preference;
+              user.speechEnabled = newSetting.speechEnabled;
+              user.preferredView = newSetting.preferredView;
+            } else {
+              // this is a new user
+              userSettings.push(newSetting);
+            }
           }}
           onCancel={() => this.setState({ page: AppPages.Map })}
           onLogout={() => this.setState({ page: AppPages.Login })}

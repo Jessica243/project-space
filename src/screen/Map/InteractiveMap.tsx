@@ -8,8 +8,7 @@ import { Avatar } from '@rneui/themed';
 import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import Autocomplete from '../../components/Autocomplete';
 import { UserInformation } from '../../database/userData';
-import UserSettings from '../../type/UserSettings';
-// import { CheckBox } from 'react-native-elements';
+import { UserSettings } from '../../database/userSettingsData';
 
 interface InteractiveMapProps {
   location: LocationObject;

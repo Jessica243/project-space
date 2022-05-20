@@ -3,7 +3,6 @@ import { ActivityIndicator, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import { speak } from 'expo-speech';
-import UserSettings from '../../type/UserSettings';
 import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
@@ -12,6 +11,7 @@ import parkingLocations, { ParkingSpotLocation } from '../../database/parkingDat
 import DetailPage from './DetailPage';
 import ListViewPage from './ListViewPage';
 import ResultView from '../../type/ResultView';
+import { UserSettings } from '../../database/userSettingsData';
 
 interface MapProps {
   onOpenSettings: () => void;

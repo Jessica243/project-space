@@ -6,9 +6,9 @@ import appStyles from '../../appStyles';
 import { Avatar } from '@rneui/themed';
 import Autocomplete from '../../components/Autocomplete';
 import mapLocations, { MapLocation } from '../../database/mapLocationData';
-import UserSettings from '../../type/UserSettings';
 import { UserInformation } from '../../database/userData';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType, parkingTypeName } from '../../database/parkingData';
+import { UserSettings } from '../../database/userSettingsData';
 
 interface ListViewPageProps {
   location: LocationObject;
