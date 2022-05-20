@@ -3,18 +3,20 @@ import { ActivityIndicator, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import { speak } from 'expo-speech';
-import AppState from '../../type/UserSettings';
+import UserSettings from '../../type/UserSettings';
 import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
 import DrivePage from './DrivePage';
 import parkingLocations, { ParkingSpotLocation } from '../../database/parkingData';
 import DetailPage from './DetailPage';
+import ListViewPage from './ListViewPage';
+import ResultView from '../../type/ResultView';
 
 interface MapProps {
   onOpenSettings: () => void;
   onOpenTimer: () => void;
-  settings: AppState;
+  settings: UserSettings;
   user: UserInformation;
 }
 
@@ -25,10 +27,11 @@ interface MapState {
   page: MapPages;
   destination?: ParkingSpotLocation;
   parkingDurationHrs: number;
+  view: ResultView;
 }
 
 enum MapPages {
-  MAP,
+  MAIN,
   DRIVE,
   DETAIL,
 }
@@ -38,8 +41,9 @@ class Map extends Component<MapProps, MapState> {
     location: null,
     locationError: '',
     loading: true,
-    page: MapPages.MAP,
+    page: MapPages.MAIN,
     parkingDurationHrs: 2,
+    view: this.props.settings.preferredView,
   };
 
   componentDidMount() {
@@ -98,20 +102,41 @@ class Map extends Component<MapProps, MapState> {
       );
     } else if(this.state.locationError.length === 0 && this.state.location !== null) {
       switch(this.state.page){
-      case MapPages.MAP:
-        return (
-          <InteractiveMap
-            onDetail={(location: ParkingSpotLocation) => {
-              this.setState({ page: MapPages.DETAIL, destination: location });
-            }}
-            location={this.state.location}
-            onOpenSettings={this.props.onOpenSettings}
-            onOpenTimer={this.props.onOpenTimer}
-            user={this.props.user}
-            onPlayVoiceInteraction={this.playVoiceInteraction}
-            settings={this.props.settings}
-          />
-        );
+      case MapPages.MAIN:
+        switch(this.state.view){
+        case ResultView.Map:
+          return (
+            <InteractiveMap
+              onDetail={(location: ParkingSpotLocation) => {
+                this.setState({ page: MapPages.DETAIL, destination: location });
+              }}
+              location={this.state.location}
+              onOpenSettings={this.props.onOpenSettings}
+              onOpenTimer={this.props.onOpenTimer}
+              user={this.props.user}
+              onPlayVoiceInteraction={this.playVoiceInteraction}
+              settings={this.props.settings}
+              onChangeToListView={() => this.setState({ view: ResultView.List })}
+            />
+          );
+        case ResultView.List:
+          return (
+            <ListViewPage
+              onDetail={(location: ParkingSpotLocation) => {
+                this.setState({ page: MapPages.DETAIL, destination: location });
+              }}
+              location={this.state.location}
+              onOpenSettings={this.props.onOpenSettings}
+              onOpenTimer={this.props.onOpenTimer}
+              user={this.props.user}
+              onPlayVoiceInteraction={this.playVoiceInteraction}
+              settings={this.props.settings}
+              onChangeToMapView={() => this.setState({ view: ResultView.Map })}
+            />
+          );
+        default:
+          return null;
+        }
       case MapPages.DRIVE:
         return (
           <DrivePage
@@ -126,7 +151,7 @@ class Map extends Component<MapProps, MapState> {
             user={this.props.user}
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             destination={this.state.destination!}
-            onBack={() => this.setState({ page: MapPages.MAP })}
+            onBack={() => this.setState({ page: MapPages.MAIN })}
             onDrive={() => this.setState({ page: MapPages.DRIVE })}
             parkingDurationHrs={this.state.parkingDurationHrs}
           />

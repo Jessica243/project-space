@@ -5,6 +5,7 @@ import ParkingPreference, { parkingPreference, possibleParkingPreferences } from
 
 import RNPickerSelect from 'react-native-picker-select';
 import appStyles from '../../appStyles';
+import ResultView, { possibleResultViews, resultView } from '../../type/ResultView';
 
 interface SettingProps {
   onSave: (newSetting: UserSettings) => void,
@@ -16,12 +17,14 @@ interface SettingProps {
 interface SettingState {
   preference: ParkingPreference;
   speechEnabled: boolean;
+  preferredView: ResultView;
 }
 
 class Setting extends Component<SettingProps, SettingState> {
   state: SettingState = {
     preference: this.props.settings.preference,
     speechEnabled: this.props.settings.speechEnabled,
+    preferredView: this.props.settings.preferredView,
   };
 
   render() {
@@ -47,6 +50,17 @@ class Setting extends Component<SettingProps, SettingState> {
             ]}
           />
         </View>
+        <Text>Default View</Text>
+        <View>
+          <RNPickerSelect
+            onValueChange={(value) => this.setState({ preferredView: value })}
+            value={this.state.preferredView}
+            items={possibleResultViews.map(v => ({
+              label: resultView[ v ],
+              value: v,
+            }))}
+          />
+        </View>
         <View style={appStyles.buttonRow}>
           <Button
             onPress={this.props.onCancel}
@@ -56,6 +70,7 @@ class Setting extends Component<SettingProps, SettingState> {
             onPress={() => this.props.onSave({
               preference: this.state.preference,
               speechEnabled: this.state.speechEnabled,
+              preferredView: this.state.preferredView,
             })}
             title="Save"
           />

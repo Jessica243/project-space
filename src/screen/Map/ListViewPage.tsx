@@ -1,17 +1,16 @@
 import { LocationObject } from 'expo-location';
 import React, { Component } from 'react';
-import { View, Button, StyleSheet, Dimensions, Text } from 'react-native';
-import MapView, { Callout } from 'react-native-maps';
-import parkingLocations, { ParkingSpotLocation, ParkingSpotType } from '../../database/parkingData';
-import MapMarker from './MapMarker';
+import { Button, Dimensions, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Callout } from 'react-native-maps';
+import appStyles from '../../appStyles';
 import { Avatar } from '@rneui/themed';
-import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import Autocomplete from '../../components/Autocomplete';
-import { UserInformation } from '../../database/userData';
+import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import UserSettings from '../../type/UserSettings';
-// import { CheckBox } from 'react-native-elements';
+import { UserInformation } from '../../database/userData';
+import parkingLocations, { ParkingSpotLocation, ParkingSpotType, parkingTypeName } from '../../database/parkingData';
 
-interface InteractiveMapProps {
+interface ListViewPageProps {
   location: LocationObject;
   user: UserInformation;
   settings: UserSettings;
@@ -19,24 +18,36 @@ interface InteractiveMapProps {
   onOpenTimer: () => void;
   onDetail: (location: ParkingSpotLocation) => void;
   onPlayVoiceInteraction: () => void;
-  onChangeToListView: () => void;
+  onChangeToMapView: () => void;
 }
 
-interface InteractiveMapState {
+interface ListViewPageState {
   onlyShowFreeParking: boolean;
   location: LocationObject;
 }
 
-class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState> {
-  state: InteractiveMapState = {
+class ListViewPage extends Component<ListViewPageProps, ListViewPageState> {
+  state: ListViewPageState = {
     onlyShowFreeParking: false,
     location: this.props.location,
   };
 
   styles = StyleSheet.create({
-    map: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
+    searchResults: {
+      marginTop: 80,
+      marginBottom: 20,
+    },
+    bold: {
+      fontWeight: 'bold',
+    },
+    item: {
+      backgroundColor: '#f0f0f0',
+      marginTop: 5,
+      marginBottom: 5,
+      padding: 5,
+    },
+    scroll: {
+      paddingVertical: 10,
     },
     topLeftCallout: {
       marginTop: 45,
@@ -64,14 +75,14 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     },
   });
 
-  toggleParkingPaidParkingLocations = () => {
-    this.setState({ onlyShowFreeParking: !this.state.onlyShowFreeParking });
-  };
-
   filterMapLocations = (name: string) => {
     return mapLocations.filter((mapLocation: MapLocation) => {
       return mapLocation.name.toLowerCase().includes(name.toLowerCase());
     });
+  };
+
+  toggleParkingPaidParkingLocations = () => {
+    this.setState({ onlyShowFreeParking: !this.state.onlyShowFreeParking });
   };
 
   searchLocation = (location?: MapLocation) => {
@@ -112,31 +123,29 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     });
 
     return (
-      <View>
-        <MapView
-          region={{
-            latitude: this.state.location.coords.latitude,
-            longitude: this.state.location.coords.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-          loadingEnabled={true}
-          style={this.styles.map}
-          moveOnMarkerPress = {true}
-          showsUserLocation={true}
-          showsCompass={true}
-          showsPointsOfInterest = {false}
-        >
-          { displayParkingSpots.map((park: ParkingSpotLocation) => {
-            return (
-              <MapMarker
-                key={park.id}
-                parking={park}
-                onDetail={this.props.onDetail}
-              />
-            );
-          })}
-        </MapView>
+      <View style={appStyles.page}>
+        <View style={this.styles.searchResults}>
+          <ScrollView
+            contentContainerStyle={this.styles.scroll}
+          >
+            { displayParkingSpots.map((park: ParkingSpotLocation) => {
+              return (
+                <View key={park.id} style={this.styles.item}>
+                  {/* <Text>{park.name}</Text>
+                  <Button title="Select this" onPress={() => this.props.onDetail(park)} /> */}
+                  <Text style={this.styles.bold}>{park.name}</Text>
+                  <Text>Price: ${park.price}</Text>
+                  <Text>Clearance: {park.clearanceHeight}</Text>
+                  <Text>Type: {parkingTypeName[ park.type ]}</Text>
+                  <Button
+                    title='Select parking spot'
+                    onPress = {()=>this.props.onDetail(park)}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
         <Callout style={this.styles.topLeftCallout}>
           <Autocomplete
             placeholder="Where do you want to go?"
@@ -154,7 +163,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
           />
         </Callout>
         <Callout style={this.styles.topRightCallout}>
-          <Button title="📃" onPress={this.props.onChangeToListView} />
+          <Button title="🗺" onPress={this.props.onChangeToMapView} />
           <Button title="⏰" onPress={this.props.onOpenTimer} />
         </Callout>
         <Callout style={this.styles.bottomRightCallout}>
@@ -179,4 +188,4 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
   }
 }
 
-export default InteractiveMap;
+export default ListViewPage;
