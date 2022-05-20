@@ -37,6 +37,8 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
     searchBar: {
       flexDirection: 'row',
       backgroundColor: 'white',
+      borderColor: '#f0f0f0',
+      borderWidth: 3,
     },
     searchIcon: {
       right: 0,
