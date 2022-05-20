@@ -143,7 +143,8 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
         </MapView>
         <Callout style={this.styles.topLeftCallout}>
           <Autocomplete
-            placeholder="Current location"
+            placeholder="Where do you want to go?"
+            initialValue="Current location"
             onSelect={(_: string, value?: MapLocation) => {
               this.searchLocation(value);
             }}

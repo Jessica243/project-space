@@ -4,6 +4,7 @@ import { Button, StyleSheet, TextInput, View, StyleProp, ViewStyle, Dimensions, 
 
 interface AutocompleteProps<T> {
   placeholder: string;
+  initialValue: string;
   style?: StyleProp<ViewStyle>;
   onSelect: (searchString: string, value?: T) => void;
   filterValues: (value: string) => T[];
@@ -19,7 +20,7 @@ interface AutocompleteState<T> {
 
 class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<T>> {
   state: AutocompleteState<T> = {
-    searchString: '',
+    searchString: this.props.initialValue,
     hasFocus: false,
     selectedValue: undefined,
   };
@@ -62,7 +63,6 @@ class Autocomplete<T> extends Component<AutocompleteProps<T>, AutocompleteState<
               this.setState({ searchString: value });
             }}
             value={this.state.searchString}
-            placeholderTextColor="#000"
             placeholder={this.props.placeholder}
             onKeyPress={() => {
               this.setState({ hasFocus: true });
