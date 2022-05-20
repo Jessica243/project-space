@@ -24,6 +24,7 @@ interface MapState {
   loading: boolean;
   page: MapPages;
   destination?: ParkingSpotLocation;
+  parkingDurationHrs: number;
 }
 
 enum MapPages {
@@ -38,6 +39,7 @@ class Map extends Component<MapProps, MapState> {
     locationError: '',
     loading: true,
     page: MapPages.MAP,
+    parkingDurationHrs: 2,
   };
 
   componentDidMount() {
@@ -126,6 +128,7 @@ class Map extends Component<MapProps, MapState> {
             destination={this.state.destination!}
             onBack={() => this.setState({ page: MapPages.MAP })}
             onDrive={() => this.setState({ page: MapPages.DRIVE })}
+            parkingDurationHrs={this.state.parkingDurationHrs}
           />
         );
       default: return null;

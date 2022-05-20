@@ -8,6 +8,7 @@ export interface ParkingSpotLocation {
   longitude: number;
   clearanceHeight: number;
   totalSpaces: number;
+  rating: number;
 }
 
 export enum ParkingSpotType {
@@ -41,6 +42,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.11990034286214,
     clearanceHeight: 2.1,
     totalSpaces: 100,
+    rating: 5,
   }, {
     id: 2,
     name: 'Boxhill Free parking',
@@ -51,6 +53,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.11757658141642,
     clearanceHeight: 2.1,
     totalSpaces: 60,
+    rating: 3,
   }, {
     id: 3,
     name: 'Wilson Parking',
@@ -61,6 +64,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.11703172259323,
     clearanceHeight: 2.1,
     totalSpaces: 40,
+    rating: 4,
   }, {
     id: 4,
     name: 'Wilson Parking',
@@ -71,6 +75,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.11918097967268,
     clearanceHeight: 2.1,
     totalSpaces: 150,
+    rating: 3,
   }, {
     id: 5,
     name: 'Wilson Parking',
@@ -81,6 +86,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.12226133457077,
     clearanceHeight: 2.1,
     totalSpaces: 10,
+    rating: 4,
   }, {
     id: 6,
     name: 'Ace Parking',
@@ -91,6 +97,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.12303684407678,
     clearanceHeight: 2.5,
     totalSpaces: 100,
+    rating: 2,
   }, {
     id: 7,
     name: 'Harrow Street Car Park',
@@ -101,6 +108,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.12399063159552,
     clearanceHeight: 2.5,
     totalSpaces: 50,
+    rating: 3,
   }, {
     id: 8,
     name: 'Ellingworth Parade',
@@ -111,6 +119,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 145.1255327366492,
     clearanceHeight: 1.8,
     totalSpaces: 30,
+    rating: 5,
   }, {
     id: 9,
     name: 'Wilson Parking',
@@ -121,6 +130,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 144.9635136750925,
     clearanceHeight: 2.1,
     totalSpaces: 150,
+    rating: 4,
   }, {
     id: 10,
     name: 'Wilson Parking',
@@ -131,6 +141,7 @@ const parkingLocations: Array<ParkingSpotLocation> = [
     longitude: 144.9604981994445,
     clearanceHeight: 2.1,
     totalSpaces: 40,
+    rating: 3,
   },
 
 ];

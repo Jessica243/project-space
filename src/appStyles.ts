@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const appStyles = StyleSheet.create({
   title: {
@@ -35,8 +35,8 @@ const appStyles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 20,
-    maxWidth: '100%',
-    maxHeight: '100%',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
 

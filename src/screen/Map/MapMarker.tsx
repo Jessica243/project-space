@@ -26,6 +26,9 @@ interface MapMarkerProps {
 
 class MapMarker extends Component<MapMarkerProps, any> {
   styles = StyleSheet.create({
+    bold: {
+      fontWeight: 'bold',
+    },
   });
 
   render() {
@@ -39,9 +42,10 @@ class MapMarker extends Component<MapMarkerProps, any> {
         image={parkingIcon[ this.props.parking.type ]}
       >
         <Callout>
-          <Text>{this.props.parking.name}</Text>
-          <Text>{this.props.parking.address}</Text>
-          <Text>{parkingTypeName[ this.props.parking.type ]}</Text>
+          <Text style={this.styles.bold}>{this.props.parking.name}</Text>
+          <Text>Price: ${this.props.parking.price}</Text>
+          <Text>Clearance: {this.props.parking.clearanceHeight}</Text>
+          <Text>Type: {parkingTypeName[ this.props.parking.type ]}</Text>
           <Button
             title='Select parking spot'
             onPress = {()=>this.props.onDetail(this.props.parking)}

@@ -68,7 +68,8 @@ Note:
   - [x] Add search for locations on the map
   - [x] Add parking information map overlay
   - [x] Add parking detail page
-  - [ ] Add prices and other parking details and show on the map
+  - [x] Add prices and other parking details and show on the map
+  - [ ] Set details to show in map view based on user settings
   - [ ] Add parking list view (same info as the map search results)
   - [ ] Add filtering and sorting parking locations
   - [ ] Add initial preference selection

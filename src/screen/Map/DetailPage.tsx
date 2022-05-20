@@ -11,6 +11,7 @@ interface DetailPageProps {
   onDrive: () => void;
   destination: ParkingSpotLocation;
   user: UserInformation;
+  parkingDurationHrs: number;
 }
 
 interface DetailPageState {
@@ -44,6 +45,19 @@ class DetailPage extends Component<DetailPageProps, DetailPageState> {
     },
     newComment: {
       borderWidth: 1,
+    },
+    userName: {
+      color: '#747575',
+      fontStyle: 'italic',
+    },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      marginBottom: 10,
+    },
+    subtitle: {
+      fontWeight: 'bold',
+      fontSize: 16,
     },
   });
 
@@ -88,15 +102,16 @@ class DetailPage extends Component<DetailPageProps, DetailPageState> {
     const comments = this.findCommentsByParkingId(this.props.destination.id);
     return (
       <View style={appStyles.page}>
-        <Text>Name: {this.props.destination.name}</Text>
+        <Text style={this.styles.title}>{this.props.destination.name}</Text>
         <Text>Address: {this.props.destination.address}</Text>
         <Text>Type: {parkingTypeName[ this.props.destination.type ]}</Text>
-        <Text>Price:</Text>
-        <Text>Duration:</Text>
-        <Text>Clearance:</Text>
-        <Text>Rating: ⭐️⭐️⭐️⭐️</Text>
+        <Text>Price: ${this.props.destination.price}</Text>
+        <Text>Duration: {this.props.parkingDurationHrs}hrs</Text>
+        <Text>Clearance: {this.props.destination.clearanceHeight}m</Text>
+        <Text>Total spaces: {this.props.destination.totalSpaces}</Text>
+        <Text>Rating: {'⭐️'.repeat(this.props.destination.rating)}</Text>
         <Text></Text>
-        <Text>Discussion:</Text>
+        <Text style={this.styles.subtitle}>Discussion:</Text>
         <ScrollView
           contentContainerStyle={this.styles.scrollComments}
           ref={ref => this.setState({ scrollView: ref })}
@@ -112,7 +127,7 @@ class DetailPage extends Component<DetailPageProps, DetailPageState> {
 
               return (
                 <View key={comment.id} style={commentStyle}>
-                  <Text>
+                  <Text style={this.styles.userName}>
                     {user?.firstName} {user?.surname} ({comment.createdAt.toDateString()})
                   </Text>
                   <Text>{comment.comment}</Text>
