@@ -124,7 +124,7 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
           style={this.styles.map}
           moveOnMarkerPress = {true}
           showsUserLocation={true}
-          showsCompass={true}
+          showsCompass={false}
           showsPointsOfInterest = {false}
         >
           { displayParkingSpots.map((park: ParkingSpotLocation) => {
