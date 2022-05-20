@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
-import { speak } from 'expo-speech';
+import { speak, isSpeakingAsync } from 'expo-speech';
 import InteractiveMap from './InteractiveMap';
 import appStyles from '../../appStyles';
 import { UserInformation } from '../../database/userData';
@@ -12,6 +12,7 @@ import DetailPage from './DetailPage';
 import ListViewPage from './ListViewPage';
 import ResultView from '../../type/ResultView';
 import { UserSettings } from '../../database/userSettingsData';
+import sleep from '../../util/sleep';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -63,29 +64,34 @@ class Map extends Component<MapProps, MapState> {
     })();
   }
 
+  finishSpeaking = async (text: string) => {
+    await speak(text);
+    while (await isSpeakingAsync()) {
+      await sleep(1000);
+    }
+  };
+
   playVoiceInteraction = async () => {
-    speak('Where would you like to go, and how long would you like to park?');
-    speak(`I remember you wanted to find ${this.props.settings.preference} parking. Is this still correct?`);
     const loc = 'Box Hill';
     const parkingHours = 2;
     const preference = 'closest';
-    speak(`Sure. Searching locations around ${loc} for ${parkingHours} hours that are ${preference}.`);
-    const results = parkingLocations.slice(0, 3);
-    speak("I've found the following results.");
-    results.forEach(async r => {
-      speak(r.name);
-    });
-    speak('where would you like to park?');
-    const parkingLocation = results[ 2 ];
-    speak(`Thank you. Showing you details for ${parkingLocation.name}.`);
-    setTimeout(() => {
-      this.setState({ page: MapPages.DETAIL, destination: parkingLocation });
-    }, 23900);
-    speak('Would you like to drive here?');
-    speak('Showing driving directions to this carpark');
-    setTimeout(() => {
-      this.setState({ page: MapPages.DRIVE });
-    }, 29000);
+    const topResults = parkingLocations.slice(0, 3);
+    const selectedLocation = topResults[ 2 ];
+
+    await this.finishSpeaking('Where would you like to go, and how long would you like to park?');
+    await sleep(5000);
+    await this.finishSpeaking(`Sure. Searching locations around ${loc} for ${parkingHours} hours based on ${preference}.`);
+    await this.finishSpeaking('Here are the top results.');
+    await topResults.forEach(async r => this.finishSpeaking(r.name));
+    await this.finishSpeaking('where would you like to park?');
+    await sleep(5000);
+    await this.finishSpeaking(`Thank you. Showing you details for ${selectedLocation.name}.`);
+    this.setState({ page: MapPages.DETAIL, destination: selectedLocation });
+    await sleep(3000);
+    await this.finishSpeaking('Would you like to drive here?');
+    await sleep(1000);
+    await this.finishSpeaking('Showing driving directions to this carpark');
+    this.setState({ page: MapPages.DRIVE });
   };
 
   onMapReady = () => {

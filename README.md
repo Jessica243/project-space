@@ -79,6 +79,6 @@ Note:
   - [ ] Make settings page more readable
 - [x] Voice features
   - [x] Drive to destination flow (dummy flow)
-  - [ ] Adjust voice playback speed to allow user time to speak
+  - [x] Adjust voice playback speed to allow user time to speak
 - [ ] Add comments to code for hand in
 - [ ] Publish the final app on expo for hand in
