@@ -76,6 +76,7 @@ Note:
   - [x] Add initial preference selection
   - [x] Add logout button
   - [x] Add drive to parking dummy
+  - [ ] Get height of car in user settings
   - [ ] Make settings page more readable
 - [x] Voice features
   - [x] Drive to destination flow (dummy flow)
