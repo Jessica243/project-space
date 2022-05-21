@@ -1,6 +1,6 @@
 import { LocationObject } from 'expo-location';
 import React, { Component } from 'react';
-import { Button, Dimensions, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Button, Dimensions, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { Callout } from 'react-native-maps';
 import appStyles from '../../appStyles';
 import { Avatar } from '@rneui/themed';
@@ -9,6 +9,8 @@ import mapLocations, { MapLocation } from '../../database/mapLocationData';
 import { UserInformation } from '../../database/userData';
 import parkingLocations, { ParkingSpotLocation, ParkingSpotType, parkingTypeName } from '../../database/parkingData';
 import { UserSettings } from '../../database/userSettingsData';
+import ParkingPreference from '../../type/ParkingPreference';
+import { Badge } from 'react-native-elements';
 
 interface ListViewPageProps {
   location: LocationObject;
@@ -22,14 +24,36 @@ interface ListViewPageProps {
 }
 
 interface ListViewPageState {
-  onlyShowFreeParking: boolean;
   location: LocationObject;
+  sortBy: ParkingPreference;
+  duration: number;
+  displayPreference: DisplayPerference;
 }
+
+enum DisplayPerference {
+  FREE_ONLY,
+  PARKING_LOT_ONLY,
+  ALL,
+}
+
+const displayPreferenceName: Record<DisplayPerference, string> = {
+  [ DisplayPerference.FREE_ONLY ]: 'free parking',
+  [ DisplayPerference.PARKING_LOT_ONLY ]: 'parking lot',
+  [ DisplayPerference.ALL ]: 'all parking',
+};
+
+const orderByname: Record<ParkingPreference, string> = {
+  [ ParkingPreference.Cost ]: 'order by cheapest',
+  [ ParkingPreference.Distance ]: 'order by closest',
+  [ ParkingPreference.Security ]: 'order by most secure',
+};
 
 class ListViewPage extends Component<ListViewPageProps, ListViewPageState> {
   state: ListViewPageState = {
-    onlyShowFreeParking: false,
     location: this.props.location,
+    sortBy: this.props.settings.preference,
+    duration: 2,
+    displayPreference: DisplayPerference.ALL,
   };
 
   styles = StyleSheet.create({
@@ -73,16 +97,15 @@ class ListViewPage extends Component<ListViewPageProps, ListViewPageState> {
       paddingRight: 15,
       borderRadius: 20,
     },
+    searchOptions: {
+      marginTop: 10,
+    },
   });
 
   filterMapLocations = (name: string) => {
     return mapLocations.filter((mapLocation: MapLocation) => {
       return mapLocation.name.toLowerCase().includes(name.toLowerCase());
     });
-  };
-
-  toggleParkingPaidParkingLocations = () => {
-    this.setState({ onlyShowFreeParking: !this.state.onlyShowFreeParking });
   };
 
   searchLocation = (location?: MapLocation) => {
@@ -111,16 +134,61 @@ class ListViewPage extends Component<ListViewPageProps, ListViewPageState> {
     }
   };
 
-  render() {
-    const displayParkingSpots = parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
-      if(this.state.onlyShowFreeParking) {
+  toggleParkingDuration = () => {
+    const newDuration = (this.state.duration + 0.5)%6 + 0.5;
+    this.setState({ duration: newDuration });
+  };
+
+  toggleParkingPreference = () => {
+    switch(this.state.displayPreference){
+    case DisplayPerference.ALL:
+      this.setState({ displayPreference: DisplayPerference.FREE_ONLY });
+      return;
+    case DisplayPerference.FREE_ONLY:
+      this.setState({ displayPreference: DisplayPerference.PARKING_LOT_ONLY });
+      return;
+    case DisplayPerference.PARKING_LOT_ONLY:
+      this.setState({ displayPreference: DisplayPerference.ALL });
+      return;
+    }
+  };
+
+  toggleOrderBy = () => {
+    switch(this.state.sortBy) {
+    case ParkingPreference.Cost:
+      this.setState({ sortBy: ParkingPreference.Distance });
+      return;
+    case ParkingPreference.Distance:
+      this.setState({ sortBy: ParkingPreference.Security });
+      return;
+    case ParkingPreference.Security:
+      this.setState({ sortBy: ParkingPreference.Cost });
+      return;
+    }
+  };
+
+  findRelevantParking = () => {
+    switch(this.state.displayPreference){
+    case DisplayPerference.ALL:
+      return parkingLocations;
+    case DisplayPerference.FREE_ONLY:
+      return parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
         return parkingSpot.type === ParkingSpotType.Free_LotCovered
-          || parkingSpot.type === ParkingSpotType.Free_LotUncovered
-          || parkingSpot.type === ParkingSpotType.Free_Street;
-      } else {
-        return true;
-      }
-    });
+              || parkingSpot.type === ParkingSpotType.Free_LotUncovered
+              || parkingSpot.type === ParkingSpotType.Free_Street;
+      });
+    case DisplayPerference.PARKING_LOT_ONLY:
+      return parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
+        return parkingSpot.type === ParkingSpotType.Free_LotCovered
+                || parkingSpot.type === ParkingSpotType.Free_LotUncovered
+                || parkingSpot.type === ParkingSpotType.Paid_LotCovered
+                || parkingSpot.type === ParkingSpotType.Paid_LotUncovered;
+      });
+    }
+  };
+
+  render() {
+    const displayParkingSpots = this.findRelevantParking();
 
     return (
       <View style={appStyles.page}>
@@ -157,10 +225,19 @@ class ListViewPage extends Component<ListViewPageProps, ListViewPageState> {
             displayValue={(value: MapLocation) => value.name}
             displayKey={(value: MapLocation) => value.id.toString()}
           />
-          <Button
-            onPress={this.toggleParkingPaidParkingLocations}
-            title={this.state.onlyShowFreeParking ? 'show all parking': 'show free parking only'}
-          />
+          <View style={this.styles.searchOptions}>
+            <View style={appStyles.row}>
+              <Pressable onPress={this.toggleParkingDuration}>
+                <Badge value={`${this.state.duration} hrs`}/>
+              </Pressable>
+              <Pressable onPress={this.toggleParkingPreference}>
+                <Badge value={displayPreferenceName[ this.state.displayPreference ]} />
+              </Pressable>
+              <Pressable onPress={this.toggleOrderBy}>
+                <Badge value={orderByname[ this.state.sortBy ]}/>
+              </Pressable>
+            </View>
+          </View>
         </Callout>
         <Callout style={this.styles.topRightCallout}>
           <Button title="🗺" onPress={this.props.onChangeToMapView} />
