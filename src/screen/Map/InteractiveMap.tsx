@@ -177,8 +177,25 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     }
   };
 
+  sortParking = (parkingLocations: Array<ParkingSpotLocation>) => {
+    switch(this.state.sortBy){
+    case ParkingPreference.Cost:
+      return parkingLocations.sort( (a, b) => {
+        if (a.price === b.price){
+          return 0;
+        } else if (a.price < b.price){
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    default:
+      return parkingLocations;
+    }
+  };
+
   render() {
-    const displayParkingSpots = this.findRelevantParking();
+    const displayParkingSpots = this.sortParking(this.findRelevantParking());
 
     return (
       <View>
