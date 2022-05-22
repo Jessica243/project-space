@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, Button, StyleSheet, TextInput } from 'react-native';
 import ParkingPreference, { parkingPreference, possibleParkingPreferences } from '../../type/ParkingPreference';
 
 import RNPickerSelect from 'react-native-picker-select';
@@ -20,6 +20,7 @@ interface SettingState {
   preference: ParkingPreference;
   speechEnabled: boolean;
   preferredView: ResultView;
+  vehicleHelightCentimetre: number;
 }
 
 class Setting extends Component<SettingProps, SettingState> {
@@ -28,11 +29,13 @@ class Setting extends Component<SettingProps, SettingState> {
       preference: this.props.settings.preference,
       speechEnabled: this.props.settings.speechEnabled,
       preferredView: this.props.settings.preferredView,
+      vehicleHelightCentimetre: this.props.settings.vehicleHelightCentimetre,
     }
     : {
       preference: ParkingPreference.Cost,
       speechEnabled: true,
       preferredView: ResultView.Map,
+      vehicleHelightCentimetre: 150,
     };
 
   styles = StyleSheet.create({
@@ -41,35 +44,76 @@ class Setting extends Component<SettingProps, SettingState> {
       fontSize: 20,
       marginBottom: 10,
     },
-    subtitle: {
+    question: {
       fontWeight: 'bold',
-      fontSize: 16,
       marginBottom: 10,
       marginTop: 10,
+    },
+    headingSection: {
+      paddingBottom: 20,
     },
   });
 
   render() {
     return (
       <View style={appStyles.page}>
-        {
-          this.props.settings
-            ? <Text style={this.styles.title}>Preferences</Text>
-            : <Text style={this.styles.title}>
-              Welcome {this.props.user.firstName}.
-              Please select your preferences for parking.
-            </Text>
-        }
-        <RNPickerSelect
-          onValueChange={(value) => this.setState({ preference: value })}
-          value={this.state.preference}
-          items={possibleParkingPreferences.map(p => ({
-            label: parkingPreference[ p ],
-            value: p,
-          }))}
-        />
-        <Text style={this.styles.subtitle}>Speech</Text>
+        <View style={this.styles.headingSection}>
+          {
+            this.props.settings
+              ? (
+                <View>
+                  <Text style={appStyles.title}>Settings</Text>
+                  <View>
+                    <Text>First Name: {this.props.user.firstName}</Text>
+                    <Text>Surname: {this.props.user.surname}</Text>
+                    <Text>Email: {this.props.user.email}</Text>
+                  </View>
+                </View>
+              )
+              : (
+                <View>
+                  <Text style={appStyles.title}>
+                  Welcome {this.props.user.firstName}
+                  </Text>
+                  <Text>
+                  Please answer the questions below to set up your account.
+                  You can change this later by going to user settings.
+                  </Text>
+                </View>
+              )
+          }
+        </View>
         <View>
+          <Text style={this.styles.question}>What is your vehicle height?</Text>
+          <View style={appStyles.row}>
+            <TextInput
+              onChangeText={(value) => this.setState({ vehicleHelightCentimetre: parseInt(value) })}
+              value={
+                this.state.vehicleHelightCentimetre
+                  ? this.state.vehicleHelightCentimetre.toString()
+                  : ''
+              }
+              placeholder="vehicle height"
+              keyboardType='number-pad'
+            />
+            <Text>cm</Text>
+          </View>
+        </View>
+        <View>
+          <Text style={this.styles.question}>
+            What is most important when you look for parking?
+          </Text>
+          <RNPickerSelect
+            onValueChange={(value) => this.setState({ preference: value })}
+            value={this.state.preference}
+            items={possibleParkingPreferences.map(p => ({
+              label: parkingPreference[ p ],
+              value: p,
+            }))}
+          />
+        </View>
+        <View>
+          <Text style={this.styles.question}>Would you like to enable speech?</Text>
           <RNPickerSelect
             onValueChange={(value) => this.setState({ speechEnabled: value })}
             value={this.state.speechEnabled}
@@ -79,8 +123,8 @@ class Setting extends Component<SettingProps, SettingState> {
             ]}
           />
         </View>
-        <Text style={this.styles.subtitle}>Default View</Text>
         <View>
+          <Text style={this.styles.question}>Which result view would you like to use? </Text>
           <RNPickerSelect
             onValueChange={(value) => this.setState({ preferredView: value })}
             value={this.state.preferredView}
@@ -104,6 +148,7 @@ class Setting extends Component<SettingProps, SettingState> {
               preference: this.state.preference,
               speechEnabled: this.state.speechEnabled,
               preferredView: this.state.preferredView,
+              vehicleHelightCentimetre: this.state.vehicleHelightCentimetre,
             })}
             title="Save"
           />
