@@ -156,7 +156,7 @@ class Map extends Component<MapProps, MapState> {
     await displayParkingSpots.forEach(async r => this.finishSpeaking(r.location.name));
     await this.finishSpeaking('where would you like to park?');
     await sleep(5000);
-    const selectedLocation = displayParkingSpots[ 2 ];
+    const selectedLocation = displayParkingSpots[ 0 ];
     await this.finishSpeaking(`Thank you. Showing you details for ${selectedLocation.location.name}.`);
     this.setState({ page: MapPages.DETAIL, destination: selectedLocation.location });
     await sleep(3000);
