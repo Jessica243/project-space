@@ -52,8 +52,9 @@ class Timer extends Component<TimerProps, TimerState> {
   render() {
     return (
       <View>
-        <Text>This is currently under construction</Text>
-        <Text style={appStyles.validationError}>Coming Soon!</Text>
+        <Text style={appStyles.validationError}>
+          This parking timer feature is coming in the next version! Watch this space.
+        </Text>
         <Button title="Back" onPress={this.props.onReturn}/>
         {this.getPage()}
       </View>

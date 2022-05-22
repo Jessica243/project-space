@@ -15,7 +15,9 @@ class DrivePage extends Component<DrivePageProps, any> {
         <Text>Drive to [{this.props.destination.name}]</Text>
         <Text>{this.props.destination.address}</Text>
         <Text></Text>
-        <Text style={appStyles.validationError}>Coming soon!</Text>
+        <Text style={appStyles.validationError}>
+          This drive to destination feature is coming in the next version! Watch this space.
+        </Text>
         <Button title="Back" onPress={this.props.onBack} />
       </View>
     );
