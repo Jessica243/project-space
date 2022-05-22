@@ -244,17 +244,29 @@ class Map extends Component<MapProps, MapState> {
     }
   };
 
+  mostSecureOrder = [
+    ParkingSpotType.Paid_LotCovered,
+    ParkingSpotType.Paid_LotUncovered,
+    ParkingSpotType.Free_LotCovered,
+    ParkingSpotType.Free_LotUncovered,
+    ParkingSpotType.Paid_Street,
+    ParkingSpotType.Free_Street,
+  ];
+
   sortParking = (locations: Array<ParkingDestination>) => {
     switch(this.state.sortBy){
     case ParkingPreference.Cost:
       return locations.sort( (a, b) => {
-        if (a.location.price === b.location.price){
-          return 0;
-        } else if (a.location.price < b.location.price){
-          return -1;
-        } else {
-          return 1;
-        }
+        return a.location.price - b.location.price;
+      });
+    case ParkingPreference.Distance:
+      return locations.sort( (a, b) => {
+        return a.distanceInMeters - b.distanceInMeters;
+      });
+    case ParkingPreference.Security:
+      return locations.sort((a, b) => {
+        const order = this.mostSecureOrder;
+        return order.indexOf(a.location.type) - order.indexOf(b.location.type);
       });
     default:
       return locations;
