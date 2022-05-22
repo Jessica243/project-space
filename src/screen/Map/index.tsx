@@ -146,6 +146,14 @@ class Map extends Component<MapProps, MapState> {
     await this.finishSpeaking('Where would you like to go, and how long would you like to park?');
     await sleep(5000);
     await this.finishSpeaking(`Sure. Searching locations around ${loc} for ${parkingHours} hours based on ${preference}.`);
+    this.searchLocation(
+      {
+        id: 2,
+        name: 'Box Hill',
+        latitude: -37.81917587784524,
+        longitude: 145.12200306843783,
+      },
+    );
     await this.finishSpeaking('Here are the top results.');
     await topResults.forEach(async r => this.finishSpeaking(r.name));
     await this.finishSpeaking('where would you like to park?');

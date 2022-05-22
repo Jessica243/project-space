@@ -58,7 +58,7 @@ Note:
 - [x] Create basic app
 - [x] Learn how to publish app on expo
 - [x] Change function component to class components
-- [ ] Mobile features
+- [x] Mobile features
   - [x] Add map
   - [x] Add settings
   - [x] Add registration
@@ -81,9 +81,10 @@ Note:
   - [x] Refactor so only 1 set of search logic
   - [x] Add more loading time
   - [x] Filter parking by location
-  - [ ] Add more parking spots
   - [x] Make search tags have larger padding
 - [x] Voice features
   - [x] Drive to destination flow (dummy flow)
   - [x] Adjust voice playback speed to allow user time to speak
+  - [x] Voice should search change view and filter
+- [ ] Add more parking spots
 - [ ] Publish the final app on expo for hand in
