@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { ParkingDestination } from '.';
 import { ParkingSpotLocation, parkingTypeName } from '../../database/parkingData';
 
 interface ListViewPageProps {
   onDetail: (location: ParkingSpotLocation) => void;
-  displayParkingSpots: Array<ParkingSpotLocation>
+  displayParkingSpots: Array<ParkingDestination>
 }
 
 class ListViewPage extends Component<ListViewPageProps, any> {
@@ -34,16 +35,17 @@ class ListViewPage extends Component<ListViewPageProps, any> {
         <ScrollView
           contentContainerStyle={this.styles.scroll}
         >
-          { this.props.displayParkingSpots.map((park: ParkingSpotLocation) => {
+          { this.props.displayParkingSpots.map((park: ParkingDestination) => {
             return (
-              <View key={park.id} style={this.styles.item}>
-                <Text style={this.styles.bold}>{park.name}</Text>
-                <Text>Price: ${park.price}</Text>
-                <Text>Clearance: {park.clearanceHeight}</Text>
-                <Text>Type: {parkingTypeName[ park.type ]}</Text>
+              <View key={park.location.id} style={this.styles.item}>
+                <Text style={this.styles.bold}>{park.location.name}</Text>
+                <Text>Price: ${park.location.price}</Text>
+                <Text>Distance: {park.distanceInMeters.toFixed(0)}m</Text>
+                <Text>Clearance: {park.location.clearanceHeight.toFixed(1)}m</Text>
+                <Text>Type: {parkingTypeName[ park.location.type ]}</Text>
                 <Button
                   title='Select parking spot'
-                  onPress = {()=>this.props.onDetail(park)}
+                  onPress = {()=>this.props.onDetail(park.location)}
                 />
               </View>
             );

@@ -19,6 +19,7 @@ import { Callout } from 'react-native-maps';
 import Autocomplete from '../../components/Autocomplete';
 import { Badge } from 'react-native-elements';
 import { Avatar } from '@rneui/themed';
+import { calcDistanceInMeters } from '../../util/distanceCalculator';
 
 interface MapProps {
   onOpenSettings: () => void;
@@ -38,6 +39,11 @@ interface MapState {
   sortBy: ParkingPreference,
   duration: number,
   displayPreference: DisplayPerference,
+}
+
+export interface ParkingDestination {
+  distanceInMeters: number
+  location: ParkingSpotLocation
 }
 
 enum MapPages {
@@ -218,40 +224,40 @@ class Map extends Component<MapProps, MapState> {
     }
   };
 
-  findRelevantParking = () => {
+  findRelevantParking = (locations: Array<ParkingDestination>) => {
     switch(this.state.displayPreference){
     case DisplayPerference.ALL:
-      return parkingLocations;
+      return locations;
     case DisplayPerference.FREE_ONLY:
-      return parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
-        return parkingSpot.type === ParkingSpotType.Free_LotCovered
-              || parkingSpot.type === ParkingSpotType.Free_LotUncovered
-              || parkingSpot.type === ParkingSpotType.Free_Street;
+      return locations.filter((parkingSpot: ParkingDestination) => {
+        return parkingSpot.location.type === ParkingSpotType.Free_LotCovered
+              || parkingSpot.location.type === ParkingSpotType.Free_LotUncovered
+              || parkingSpot.location.type === ParkingSpotType.Free_Street;
       });
     case DisplayPerference.PARKING_LOT_ONLY:
-      return parkingLocations.filter((parkingSpot: ParkingSpotLocation) => {
-        return parkingSpot.type === ParkingSpotType.Free_LotCovered
-                || parkingSpot.type === ParkingSpotType.Free_LotUncovered
-                || parkingSpot.type === ParkingSpotType.Paid_LotCovered
-                || parkingSpot.type === ParkingSpotType.Paid_LotUncovered;
+      return locations.filter((parkingSpot: ParkingDestination) => {
+        return parkingSpot.location.type === ParkingSpotType.Free_LotCovered
+                || parkingSpot.location.type === ParkingSpotType.Free_LotUncovered
+                || parkingSpot.location.type === ParkingSpotType.Paid_LotCovered
+                || parkingSpot.location.type === ParkingSpotType.Paid_LotUncovered;
       });
     }
   };
 
-  sortParking = (parkingLocations: Array<ParkingSpotLocation>) => {
+  sortParking = (locations: Array<ParkingDestination>) => {
     switch(this.state.sortBy){
     case ParkingPreference.Cost:
-      return parkingLocations.sort( (a, b) => {
-        if (a.price === b.price){
+      return locations.sort( (a, b) => {
+        if (a.location.price === b.location.price){
           return 0;
-        } else if (a.price < b.price){
+        } else if (a.location.price < b.location.price){
           return -1;
         } else {
           return 1;
         }
       });
     default:
-      return parkingLocations;
+      return locations;
     }
   };
 
@@ -263,7 +269,18 @@ class Map extends Component<MapProps, MapState> {
   };
 
   getMainView = (location: LocationObject) => {
-    const displayParkingSpots = this.sortParking(this.findRelevantParking());
+    const destinations: Array<ParkingDestination> = parkingLocations.map(loc => {
+      return {
+        distanceInMeters:  this.state.location ? calcDistanceInMeters(
+          loc.latitude,
+          loc.longitude,
+          this.state.location.coords.latitude,
+          this.state.location.coords.longitude,
+        ) : 0,
+        location: loc,
+      };
+    });
+    const displayParkingSpots = this.sortParking(this.findRelevantParking(destinations));
 
     return (
       <View style={ this.state.view === ResultView.List && appStyles.page}>
