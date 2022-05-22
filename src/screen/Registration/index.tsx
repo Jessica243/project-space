@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, StyleSheet } from 'react-native';
 import DetailForm from './DetailForm';
 import appStyles from '../../appStyles';
 
@@ -17,12 +17,19 @@ class Registration extends Component<RegistrationProps, RegistrationState> {
     pageNumber: 1,
   };
 
+  style = StyleSheet.create({
+    name: {
+      fontSize: 16,
+      marginBottom: 10,
+    },
+  });
+
   getPage = () => {
     switch(this.state.pageNumber){
     case 1:
       return (
         <View>
-          <Text>Feature 1: Save Driving</Text>
+          <Text style={this.style.name}>Feature 1: Save Driving</Text>
           <Text>Find parkings that match your preferences</Text>
           <View style={appStyles.buttonRow}>
             <Button
@@ -39,7 +46,7 @@ class Registration extends Component<RegistrationProps, RegistrationState> {
     case 2:
       return (
         <View>
-          <Text>Feature 2: Personalized Parking</Text>
+          <Text style={this.style.name}>Feature 2: Personalized Parking</Text>
           <Text>Find parkings that match your preferences</Text>
           <View style={appStyles.buttonRow}>
             <Button
@@ -56,8 +63,8 @@ class Registration extends Component<RegistrationProps, RegistrationState> {
     case 3:
       return (
         <View>
-          <Text>Feature 3: Quick Navigation</Text>
-          <Text>Easily navigate to your preferred parking</Text>
+          <Text style={this.style.name}>Feature 3: Parking Comparison</Text>
+          <Text>Easily compare parking spaces</Text>
           <View style={appStyles.buttonRow}>
             <Button
               onPress={() => this.setState({ pageNumber: 2 })}
