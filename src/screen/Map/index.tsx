@@ -101,6 +101,43 @@ class Map extends Component<MapProps, MapState> {
     }
   };
 
+  getMainView = (location: LocationObject) => {
+    switch(this.state.view){
+    case ResultView.Map:
+      return (
+        <InteractiveMap
+          onDetail={(location: ParkingSpotLocation) => {
+            this.setState({ page: MapPages.DETAIL, destination: location });
+          }}
+          location={location}
+          onOpenSettings={this.props.onOpenSettings}
+          onOpenTimer={this.props.onOpenTimer}
+          user={this.props.user}
+          onPlayVoiceInteraction={this.playVoiceInteraction}
+          settings={this.props.settings}
+          onChangeToListView={() => this.setState({ view: ResultView.List })}
+        />
+      );
+    case ResultView.List:
+      return (
+        <ListViewPage
+          onDetail={(location: ParkingSpotLocation) => {
+            this.setState({ page: MapPages.DETAIL, destination: location });
+          }}
+          location={location}
+          onOpenSettings={this.props.onOpenSettings}
+          onOpenTimer={this.props.onOpenTimer}
+          user={this.props.user}
+          onPlayVoiceInteraction={this.playVoiceInteraction}
+          settings={this.props.settings}
+          onChangeToMapView={() => this.setState({ view: ResultView.Map })}
+        />
+      );
+    default:
+      return null;
+    }
+  };
+
   getPage = () => {
     if(this.state.loading){
       return (
@@ -109,40 +146,7 @@ class Map extends Component<MapProps, MapState> {
     } else if(this.state.locationError.length === 0 && this.state.location !== null) {
       switch(this.state.page){
       case MapPages.MAIN:
-        switch(this.state.view){
-        case ResultView.Map:
-          return (
-            <InteractiveMap
-              onDetail={(location: ParkingSpotLocation) => {
-                this.setState({ page: MapPages.DETAIL, destination: location });
-              }}
-              location={this.state.location}
-              onOpenSettings={this.props.onOpenSettings}
-              onOpenTimer={this.props.onOpenTimer}
-              user={this.props.user}
-              onPlayVoiceInteraction={this.playVoiceInteraction}
-              settings={this.props.settings}
-              onChangeToListView={() => this.setState({ view: ResultView.List })}
-            />
-          );
-        case ResultView.List:
-          return (
-            <ListViewPage
-              onDetail={(location: ParkingSpotLocation) => {
-                this.setState({ page: MapPages.DETAIL, destination: location });
-              }}
-              location={this.state.location}
-              onOpenSettings={this.props.onOpenSettings}
-              onOpenTimer={this.props.onOpenTimer}
-              user={this.props.user}
-              onPlayVoiceInteraction={this.playVoiceInteraction}
-              settings={this.props.settings}
-              onChangeToMapView={() => this.setState({ view: ResultView.Map })}
-            />
-          );
-        default:
-          return null;
-        }
+        return this.getMainView(this.state.location);
       case MapPages.DRIVE:
         return (
           <DrivePage

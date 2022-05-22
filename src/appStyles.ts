@@ -5,6 +5,7 @@ const appStyles = StyleSheet.create({
     fontSize: 48,
     paddingTop: 20,
     paddingBottom: 20,
+    alignSelf: 'center',
   },
   userInput: {
     fontSize: 20,
