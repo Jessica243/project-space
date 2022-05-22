@@ -28,15 +28,7 @@ interface InteractiveMapProps {
   location: LocationObject,
 }
 
-interface InteractiveMapState {
-  location: LocationObject;
-}
-
-class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState> {
-  state: InteractiveMapState = {
-    location: this.props.location,
-  };
-
+class InteractiveMap extends Component<InteractiveMapProps, any> {
   styles = StyleSheet.create({
     map: {
       width: Dimensions.get('window').width,
@@ -51,8 +43,8 @@ class InteractiveMap extends Component<InteractiveMapProps, InteractiveMapState>
     return (
       <MapView
         region={{
-          latitude: this.state.location.coords.latitude,
-          longitude: this.state.location.coords.longitude,
+          latitude: this.props.location.coords.latitude,
+          longitude: this.props.location.coords.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}

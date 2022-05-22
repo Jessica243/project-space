@@ -273,6 +273,10 @@ class Map extends Component<MapProps, MapState> {
     }
   };
 
+  filterByDistance = (locations: Array<ParkingDestination>) => {
+    return locations.filter(loc => loc.distanceInMeters < 1000);
+  };
+
   onMapReady = () => {
     this.setState({ loading: false });
     if(this.props.settings.speechEnabled){
@@ -292,7 +296,9 @@ class Map extends Component<MapProps, MapState> {
         location: loc,
       };
     });
-    const displayParkingSpots = this.sortParking(this.findRelevantParking(destinations));
+    let displayParkingSpots = this.filterByDistance(destinations);
+    displayParkingSpots = this.findRelevantParking(displayParkingSpots);
+    displayParkingSpots = this.sortParking(displayParkingSpots);
 
     return (
       <View style={ this.state.view === ResultView.List && appStyles.page}>
