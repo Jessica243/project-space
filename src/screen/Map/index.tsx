@@ -140,9 +140,6 @@ class Map extends Component<MapProps, MapState> {
     const loc = 'Box Hill';
     const parkingHours = 2;
     const preference = 'closest';
-    const topResults = parkingLocations.slice(0, 3);
-    const selectedLocation = topResults[ 2 ];
-
     await this.finishSpeaking('Where would you like to go, and how long would you like to park?');
     await sleep(5000);
     await this.finishSpeaking(`Sure. Searching locations around ${loc} for ${parkingHours} hours based on ${preference}.`);
@@ -155,11 +152,13 @@ class Map extends Component<MapProps, MapState> {
       },
     );
     await this.finishSpeaking('Here are the top results.');
-    await topResults.forEach(async r => this.finishSpeaking(r.name));
+    const displayParkingSpots = this.getDestinations().slice(0, 3);
+    await displayParkingSpots.forEach(async r => this.finishSpeaking(r.location.name));
     await this.finishSpeaking('where would you like to park?');
     await sleep(5000);
-    await this.finishSpeaking(`Thank you. Showing you details for ${selectedLocation.name}.`);
-    this.setState({ page: MapPages.DETAIL, destination: selectedLocation });
+    const selectedLocation = displayParkingSpots[ 2 ];
+    await this.finishSpeaking(`Thank you. Showing you details for ${selectedLocation.location.name}.`);
+    this.setState({ page: MapPages.DETAIL, destination: selectedLocation.location });
     await sleep(3000);
     await this.finishSpeaking('Would you like to drive here?');
     await sleep(1000);
@@ -292,7 +291,7 @@ class Map extends Component<MapProps, MapState> {
     }
   };
 
-  getMainView = (location: LocationObject) => {
+  getDestinations = () => {
     const destinations: Array<ParkingDestination> = parkingLocations.map(loc => {
       return {
         distanceInMeters:  this.state.location ? calcDistanceInMeters(
@@ -307,7 +306,11 @@ class Map extends Component<MapProps, MapState> {
     let displayParkingSpots = this.filterByDistance(destinations);
     displayParkingSpots = this.findRelevantParking(displayParkingSpots);
     displayParkingSpots = this.sortParking(displayParkingSpots);
+    return displayParkingSpots;
+  };
 
+  getMainView = (location: LocationObject) => {
+    const displayParkingSpots = this.getDestinations();
     return (
       <View style={ this.state.view === ResultView.List && appStyles.page}>
         {
