@@ -76,8 +76,14 @@ Note:
   - [x] Add initial preference selection
   - [x] Add logout button
   - [x] Add drive to parking dummy
-  - [ ] Get height of car in user settings
-  - [ ] Make settings page more readable
+  - [x] Get height of car in user settings
+  - [x] Make settings page more readable
+  - [x] Refactor so only 1 set of search logic
+  - [x] Add more loading time
+  - [ ] Filter parking by location
+  - [ ] Add more parking spots
+  - [ ] Change how the buttons look on Android
+  - [x] Make search tags have larger padding
 - [x] Voice features
   - [x] Drive to destination flow (dummy flow)
   - [x] Adjust voice playback speed to allow user time to speak
